@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AjarInd - Platform Pelatihan Digital</title>
+  
+  <!-- PWA Meta -->
+  <meta name="theme-color" content="#1e3a5f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AjarInd">
+  <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="logo.png">
+  
+  <!-- Manifest Inline -->
+  <link rel="manifest" href="data:application/json,{
+    &quot;name&quot;: &quot;AjarInd - Platform Pelatihan Digital&quot;,
+    &quot;short_name&quot;: &quot;AjarInd&quot;,
+    &quot;start_url&quot;: &quot;.&quot;,
+    &quot;display&quot;: &quot;standalone&quot;,
+    &quot;background_color&quot;: &quot;#1e3a5f&quot;,
+    &quot;theme_color&quot;: &quot;#1e3a5f&quot;,
+    &quot;description&quot;: &quot;Platform Pelatihan Digital untuk Pendidikan Indonesia&quot;,
+    &quot;icons&quot;: [
+      {&quot;src&quot;: &quot;data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231e3a5f' width='100' height='100' rx='20'/><text x='50' y='65' font-size='40' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>AI</text></svg>&quot;, &quot;sizes&quot;: &quot;192x192&quot;, &quot;type&quot;: &quot;image/svg+xml&quot;}
+    ]
+  }">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#1e3a5f',
+            navyDark: '#152a45',
+            navyLight: '#2a4f7a',
+            merah: '#c41e3a',
+            merahLight: '#e02040',
+            oren: '#f28c38',
+            orenLight: '#f5a623',
+            kuning: '#f7c948',
+            kuningLight: '#ffd966',
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    :root {
+      --navy: #1e3a5f;
+      --navy-dark: #152a45;
+      --navy-light: #2a4f7a;
+      --merah: #c41e3a;
+      --merah-light: #e02040;
+      --oren: #f28c38;
+      --oren-light: #f5a623;
+      --kuning: #f7c948;
+      --kuning-light: #ffd966;
+      --bg: #0a1628;
+      --bg-card: #111d32;
+      --fg: #f0f4f8;
+      --muted: #8899aa;
+      --border: #2a3f5f;
+    }
+    
+    * { box-sizing: border-box; }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      overflow-x: hidden;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--navy-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--navy-light); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--oren); }
+    
+    /* Background Pattern */
+    .bg-pattern {
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(30, 58, 95, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(242, 140, 56, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 60% 80%, rgba(196, 30, 58, 0.1) 0%, transparent 40%);
+    }
+    
+    /* Grid Pattern */
+    .grid-pattern {
+      background-image: 
+        linear-gradient(rgba(42, 63, 95, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(42, 63, 95, 0.3) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    
+    /* Glass Effect */
+    .glass {
+      background: rgba(17, 29, 50, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(242, 140, 56, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(242, 140, 56, 0.8); }
+    }
+    
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slide-in-right {
+      from { opacity: 0; transform: translateX(100px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes bounce-in {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+    .animate-slide-up { animation: slide-up 0.6s ease-out forwards; }
+    .animate-slide-in-right { animation: slide-in-right 0.5s ease-out forwards; }
+    .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
+    .animate-bounce-in { animation: bounce-in 0.4s ease-out forwards; }
+    
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    
+    /* Card Hover */
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(242, 140, 56, 0.2);
+    }
+    
+    /* Button Styles */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--oren), var(--oren-light));
+      color: var(--navy-dark);
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+    .btn-primary:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(242, 140, 56, 0.4);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid var(--oren);
+      color: var(--oren);
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    .btn-secondary:hover {
+      background: var(--oren);
+      color: var(--navy-dark);
+    }
+    
+    /* Input Styles */
+    .input-field {
+      background: var(--navy-dark);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 12px 16px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: var(--oren);
+      box-shadow: 0 0 0 3px rgba(242, 140, 56, 0.2);
+    }
+    .input-field::placeholder { color: var(--muted); }
+    
+    /* Hide sections */
+    .section-hidden { display: none; }
+    
+    /* WhatsApp Button */
+    .wa-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 60px;
+      height: 60px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+      z-index: 1000;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .wa-btn:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+    }
+    
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: bounce-in 0.3s ease-out;
+    }
+    
+    /* Number Badge */
+    .number-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    
+    /* Tab Active */
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--oren), var(--oren-light));
+      color: var(--navy-dark);
+    }
+    
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
+    /* Print hidden */
+    @media print {
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-pattern grid-pattern min-h-screen">
+  
+  <!-- ==================== LANDING PAGE ==================== -->
+  <div id="landingPage">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo -->
+          <div class="flex items-center gap-3">
+            <div id="logoDisplay" class="w-10 h-10 rounded-xl bg-gradient-to-br from-oren to-kuning flex items-center justify-center">
+              <span class="font-display font-bold text-navy text-lg">AI</span>
+            </div>
+            <span class="font-display font-bold text-xl text-white">AjarInd</span>
+          </div>
+          
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex items-center gap-6">
+            <a href="#layanan" class="text-gray-300 hover:text-oren transition-colors font-medium">Layanan</a>
+            <a href="#" onclick="openModal('daftarModal')" class="text-gray-300 hover:text-oren transition-colors font-medium">Daftar</a>
+            <a href="#info" class="text-gray-300 hover:text-oren transition-colors font-medium">Info</a>
+            <a href="#promo" class="text-gray-300 hover:text-oren transition-colors font-medium">Promo</a>
+            <a href="#investasi" class="text-gray-300 hover:text-oren transition-colors font-medium">Investasi</a>
+          </div>
+          
+          <!-- Admin Button -->
+          <button onclick="openModal('adminLoginModal')" class="glass px-4 py-2 rounded-lg hover:bg-navy-light transition-all flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span class="text-sm font-medium">Admin</span>
+          </button>
+          
+          <!-- Mobile Menu Button -->
+          <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-navy-light transition-all">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Mobile Menu -->
+      <div id="mobileMenu" class="md:hidden hidden border-t border-border">
+        <div class="px-4 py-4 space-y-3">
+          <a href="#layanan" class="block py-2 text-gray-300 hover:text-oren transition-colors">Layanan</a>
+          <a href="#" onclick="openModal('daftarModal')" class="block py-2 text-gray-300 hover:text-oren transition-colors">Daftar Pelatihan</a>
+          <a href="#info" class="block py-2 text-gray-300 hover:text-oren transition-colors">Info Terkini</a>
+          <a href="#promo" class="block py-2 text-gray-300 hover:text-oren transition-colors">Promo</a>
+          <a href="#investasi" class="block py-2 text-gray-300 hover:text-oren transition-colors">Investasi</a>
+        </div>
+      </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="heroSection" class="pt-24 pb-16 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
+      <div class="max-w-7xl mx-auto w-full">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          
+          <!-- Hero Content -->
+          <div class="space-y-8">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass animate-slide-up" style="opacity: 0;">
+              <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+              <span class="text-sm text-gray-300">Platform Pelatihan Digital Terpercaya</span>
+            </div>
+            
+            <h1 id="heroTitle" class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight animate-slide-up delay-100" style="opacity: 0;">
+              <span class="text-white">Selamat Datang di</span><br>
+              <span class="bg-gradient-to-r from-oren via-kuning to-orenLight bg-clip-text text-transparent">AjarInd</span>
+            </h1>
+            
+            <p id="heroSubtitle" class="text-lg text-gray-400 max-w-xl animate-slide-up delay-200" style="opacity: 0;">
+              Platform pelatihan digital untuk guru, kepalasekolah, dan lembaga pendidikan. Belajar membuat aplikasi, memanfaatkan AI, dan mengembangkan kompetensi digital dengan pendampingan ahli.
+            </p>
+            
+            <div class="flex flex-wrap gap-4 animate-slide-up delay-300" style="opacity: 0;">
+              <button onclick="openModal('daftarModal')" class="btn-primary">
+                Daftar Sekarang
+              </button>
+              <a href="#layanan" class="btn-secondary">
+                Lihat Layanan
+              </a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-6 pt-8 border-t border-border animate-slide-up delay-400" style="opacity: 0;">
+              <div>
+                <div class="text-2xl sm:text-3xl font-bold text-oren">500+</div>
+                <div class="text-sm text-gray-400">Peserta Terlatih</div>
+              </div>
+              <div>
+                <div class="text-2xl sm:text-3xl font-bold text-kuning">50+</div>
+                <div class="text-sm text-gray-400">Lembaga Mitra</div>
+              </div>
+              <div>
+                <div class="text-2xl sm:text-3xl font-bold text-merahLight">98%</div>
+                <div class="text-sm text-gray-400">Kepuasan</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Hero Visual -->
+          <div class="relative animate-slide-in-right delay-300" style="opacity: 0;">
+            <div id="heroImageContainer" class="relative z-10">
+              <!-- Default Abstract Visual -->
+              <div class="relative w-full aspect-square max-w-lg mx-auto">
+                <!-- Floating Elements -->
+                <div class="absolute top-10 left-10 w-24 h-24 rounded-2xl bg-gradient-to-br from-navy-light to-navy glass animate-float flex items-center justify-center">
+                  <svg class="w-12 h-12 text-oren" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+                <div class="absolute top-1/3 right-0 w-20 h-20 rounded-2xl bg-gradient-to-br from-oren to-kuning animate-float delay-200 flex items-center justify-center" style="animation-delay: 1s;">
+                  <svg class="w-10 h-10 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                  </svg>
+                </div>
+                <div class="absolute bottom-20 left-0 w-28 h-28 rounded-2xl bg-gradient-to-br from-merah to-merahLight animate-float flex items-center justify-center" style="animation-delay: 2s;">
+                  <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                  </svg>
+                </div>
+                
+                <!-- Center Circle -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-gradient-to-br from-navy to-navyDark border-2 border-oren/30 flex items-center justify-center animate-pulse-glow">
+                  <div class="text-center">
+                    <div class="font-display text-4xl font-bold text-oren">AI</div>
+                    <div class="text-sm text-gray-400 mt-1">Powered</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Background Glow -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-oren/10 blur-3xl"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Layanan Section -->
+    <section id="layanan" class="py-20 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="inline-block px-4 py-2 rounded-full glass text-oren text-sm font-medium mb-4">Layanan Kami</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mb-4">Pelatihan Unggulan</h2>
+          <p class="text-gray-400 max-w-2xl mx-auto">Pilih pelatihan yang sesuai dengan kebutuhan pengembangan kompetensi digital Anda</p>
+        </div>
+        
+        <div id="layananGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Layanan cards will be rendered here -->
+        </div>
+      </div>
+    </section>
+    
+    <!-- Info Terkini Section -->
+    <section id="info" class="py-20 px-4 sm:px-6 lg:px-8 bg-navyDark/50">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="inline-block px-4 py-2 rounded-full glass text-kuning text-sm font-medium mb-4">Info Terkini</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mb-4">Berita dan Artikel</h2>
+          <p class="text-gray-400">Update terbaru seputar pelatihan dan tips pendidikan digital</p>
+        </div>
+        
+        <div id="postsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Posts will be rendered here -->
+        </div>
+        
+        <div id="noPostsMessage" class="hidden text-center py-12">
+          <svg class="w-16 h-16 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+          </svg>
+          <p class="text-gray-500">Belum ada artikel. Nantikan update selanjutnya!</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Promo Section -->
+    <section id="promo" class="py-20 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="inline-block px-4 py-2 rounded-full glass text-merahLight text-sm font-medium mb-4">Promo Terbaru</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mb-4">Penawaran Spesial</h2>
+          <p class="text-gray-400">Jangan lewatkan promo menarik dari AjarInd</p>
+        </div>
+        
+        <div id="promoGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Promos will be rendered here -->
+        </div>
+        
+        <div id="noPromoMessage" class="hidden text-center py-12">
+          <svg class="w-16 h-16 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+          </svg>
+          <p class="text-gray-500">Belum ada promo aktif. Nantikan penawaran menarik!</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Investasi Section -->
+    <section id="investasi" class="py-20 px-4 sm:px-6 lg:px-8 bg-navyDark/50">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="inline-block px-4 py-2 rounded-full glass text-oren text-sm font-medium mb-4">Investasi Pelatihan</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mb-4">Pilih Paket Anda</h2>
+          <p class="text-gray-400">Investasi terbaik untuk pengembangan kompetensi digital</p>
+        </div>
+        
+        <div id="priceGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Price cards will be rendered here -->
+        </div>
+      </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 px-4 sm:px-6 lg:px-8 border-t border-border">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div class="md:col-span-2">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-oren to-kuning flex items-center justify-center">
+                <span class="font-display font-bold text-navy text-lg">AI</span>
+              </div>
+              <span class="font-display font-bold text-xl text-white">AjarInd</span>
+            </div>
+            <p class="text-gray-400 text-sm mb-4">Platform pelatihan digital untuk pendidikan Indonesia. Belajar membuat aplikasi, memanfaatkan AI, dan mengembangkan kompetensi digital.</p>
+            <p class="text-gray-500 text-sm">WhatsApp: 089673487573</p>
+          </div>
+          
+          <div>
+            <h4 class="font-display font-semibold text-white mb-4">Menu</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="#layanan" class="hover:text-oren transition-colors">Layanan</a></li>
+              <li><a href="#info" class="hover:text-oren transition-colors">Info Terkini</a></li>
+              <li><a href="#promo" class="hover:text-oren transition-colors">Promo</a></li>
+              <li><a href="#investasi" class="hover:text-oren transition-colors">Investasi</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-display font-semibold text-white mb-4">Kontak</h4>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-oren" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                089673487573
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="pt-8 border-t border-border text-center text-sm text-gray-500">
+          <p>AjarInd - Platform Pelatihan Digital Indonesia</p>
+        </div>
+      </div>
+    </footer>
+    
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/6289673487573?text=Halo%20AjarInd,%20saya%20tertarik%20dengan%20pelatihan" target="_blank" class="wa-btn no-print" aria-label="Chat WhatsApp">
+      <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+    </a>
+  </div>
+  
+  <!-- ==================== ADMIN DASHBOARD ==================== -->
+  <div id="adminDashboard" class="hidden min-h-screen">
+    <!-- Admin Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-oren to-kuning flex items-center justify-center">
+              <span class="font-display font-bold text-navy text-lg">AI</span>
+            </div>
+            <div>
+              <span class="font-display font-bold text-lg text-white">Admin Dashboard</span>
+              <span class="text-xs text-gray-400 block">AjarInd</span>
+            </div>
+          </div>
+          
+          <button onclick="logoutAdmin()" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-merah/20 text-merahLight hover:bg-merah/30 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span class="text-sm font-medium">Keluar</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Admin Content -->
+    <main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        
+        <!-- Admin Tabs -->
+        <div class="flex flex-wrap gap-2 mb-8">
+          <button onclick="switchAdminTab('landing')" class="tab-btn active px-4 py-2 rounded-lg glass font-medium text-sm transition-all" data-tab="landing">
+            Edit Landing
+          </button>
+          <button onclick="switchAdminTab('posts')" class="tab-btn px-4 py-2 rounded-lg glass font-medium text-sm transition-all" data-tab="posts">
+            Kelola Posts
+          </button>
+          <button onclick="switchAdminTab('promo')" class="tab-btn px-4 py-2 rounded-lg glass font-medium text-sm transition-all" data-tab="promo">
+            Upload Promo
+          </button>
+          <button onclick="switchAdminTab('price')" class="tab-btn px-4 py-2 rounded-lg glass font-medium text-sm transition-all" data-tab="price">
+            Price List
+          </button>
+          <button onclick="switchAdminTab('registrations')" class="tab-btn px-4 py-2 rounded-lg glass font-medium text-sm transition-all" data-tab="registrations">
+            Pendaftaran
+          </button>
+          <button onclick="switchAdminTab('settings')" class="tab-btn px-4 py-2 rounded-lg glass font-medium text-sm transition-all" data-tab="settings">
+            Pengaturan
+          </button>
+        </div>
+        
+        <!-- Tab Contents -->
+        
+        <!-- Landing Page Editor -->
+        <div id="tab-landing" class="tab-content">
+          <div class="glass rounded-2xl p-6">
+            <h2 class="font-display text-xl font-bold text-white mb-6">Edit Landing Page</h2>
+            
+            <!-- Logo Upload -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Logo</label>
+              <div class="flex items-center gap-4">
+                <div id="adminLogoPreview" class="w-16 h-16 rounded-xl bg-gradient-to-br from-oren to-kuning flex items-center justify-center">
+                  <span class="font-display font-bold text-navy text-2xl">AI</span>
+                </div>
+                <div>
+                  <input type="file" id="logoUpload" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
+                  <button onclick="document.getElementById('logoUpload').click()" class="btn-secondary text-sm">
+                    Upload Logo Baru
+                  </button>
+                  <p class="text-xs text-gray-500 mt-1">PNG/JPG, max 1MB. Kosongkan untuk default.</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Header Image -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Gambar Header</label>
+              <div id="headerImagePreview" class="w-full h-48 rounded-xl bg-navyDark border border-border flex items-center justify-center mb-3">
+                <span class="text-gray-500">Preview gambar header</span>
+              </div>
+              <input type="file" id="headerImageUpload" accept="image/*" class="hidden" onchange="handleHeaderImageUpload(event)">
+              <button onclick="document.getElementById('headerImageUpload').click()" class="btn-secondary text-sm">
+                Upload Gambar Header
+              </button>
+            </div>
+            
+            <!-- Hero Title -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Judul Hero</label>
+              <input type="text" id="heroTitleInput" class="input-field" placeholder="Selamat Datang di AjarInd">
+            </div>
+            
+            <!-- Hero Subtitle -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Deskripsi Hero</label>
+              <textarea id="heroSubtitleInput" class="input-field min-h-24" placeholder="Deskripsi singkat tentang platform..."></textarea>
+            </div>
+            
+            <button onclick="saveLandingContent()" class="btn-primary">
+              Simpan Perubahan
+            </button>
+          </div>
+        </div>
+        
+        <!-- Posts Manager -->
+        <div id="tab-posts" class="tab-content hidden">
+          <div class="glass rounded-2xl p-6 mb-6">
+            <h2 class="font-display text-xl font-bold text-white mb-6">Tambah Artikel Baru</h2>
+            
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Judul Artikel</label>
+                <input type="text" id="postTitle" class="input-field" placeholder="Judul artikel">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Kategori</label>
+                <select id="postCategory" class="input-field">
+                  <option value="tips">Tips & Trik</option>
+                  <option value="berita">Berita</option>
+                  <option value="tutorial">Tutorial</option>
+                  <option value="pengumuman">Pengumuman</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Konten Artikel</label>
+              <textarea id="postContent" class="input-field min-h-32" placeholder="Tulis konten artikel..."></textarea>
+            </div>
+            
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Gambar (opsional)</label>
+              <input type="file" id="postImage" accept="image/*" class="input-field">
+            </div>
+            
+            <button onclick="addPost()" class="btn-primary">Tambah Artikel</button>
+          </div>
+          
+          <!-- Posts List -->
+          <div class="glass rounded-2xl p-6">
+            <h3 class="font-display text-lg font-bold text-white mb-4">Daftar Artikel</h3>
+            <div id="adminPostsList" class="space-y-3">
+              <!-- Posts list will be rendered here -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- Promo Manager -->
+        <div id="tab-promo" class="tab-content hidden">
+          <div class="glass rounded-2xl p-6 mb-6">
+            <h2 class="font-display text-xl font-bold text-white mb-6">Upload Promo Baru</h2>
+            
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Judul Promo</label>
+                <input type="text" id="promoTitle" class="input-field" placeholder="Judul promo">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Masa Berlaku</label>
+                <input type="date" id="promoExpiry" class="input-field">
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Deskripsi</label>
+              <textarea id="promoDescription" class="input-field min-h-20" placeholder="Deskripsi promo..."></textarea>
+            </div>
+            
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Gambar/Flyer</label>
+              <input type="file" id="promoImage" accept="image/*" class="input-field">
+            </div>
+            
+            <button onclick="addPromo()" class="btn-primary">Upload Promo</button>
+          </div>
+          
+          <!-- Promo List -->
+          <div class="glass rounded-2xl p-6">
+            <h3 class="font-display text-lg font-bold text-white mb-4">Daftar Promo</h3>
+            <div id="adminPromoList" class="space-y-3">
+              <!-- Promo list will be rendered here -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- Price List Manager -->
+        <div id="tab-price" class="tab-content hidden">
+          <div class="glass rounded-2xl p-6 mb-6">
+            <h2 class="font-display text-xl font-bold text-white mb-6">Tambah Paket Harga</h2>
+            
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Nama Paket</label>
+                <input type="text" id="priceName" class="input-field" placeholder="Paket Basic">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Harga (Rp)</label>
+                <input type="number" id="priceAmount" class="input-field" placeholder="250000">
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Deskripsi Singkat</label>
+              <input type="text" id="priceDescription" class="input-field" placeholder="Deskripsi paket">
+            </div>
+            
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Fitur (satu per baris)</label>
+              <textarea id="priceFeatures" class="input-field min-h-24" placeholder="Fitur 1&#10;Fitur 2&#10;Fitur 3"></textarea>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Warna Badge</label>
+                <select id="priceBadge" class="input-field">
+                  <option value="">Tidak ada</option>
+                  <option value="Best Seller">Best Seller</option>
+                  <option value="Populer">Populer</option>
+                  <option value="Rekomendasi">Rekomendasi</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Harga Coret (Rp)</label>
+                <input type="number" id="priceStrike" class="input-field" placeholder="350000">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Jenis Pelatihan</label>
+                <select id="priceTraining" class="input-field">
+                  <option value="Web App">Web App</option>
+                  <option value="AI Pendidikan">AI Pendidikan</option>
+                  <option value="AI Novel">AI Novel</option>
+                  <option value="AI Modul">AI Modul</option>
+                  <option value="AI Keuangan">AI Keuangan</option>
+                  <option value="AI CBT">AI CBT</option>
+                </select>
+              </div>
+            </div>
+            
+            <button onclick="addPrice()" class="btn-primary">Tambah Paket</button>
+          </div>
+          
+          <!-- Price List -->
+          <div class="glass rounded-2xl p-6">
+            <h3 class="font-display text-lg font-bold text-white mb-4">Daftar Paket Harga</h3>
+            <div id="adminPriceList" class="space-y-3">
+              <!-- Price list will be rendered here -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- Registrations -->
+        <div id="tab-registrations" class="tab-content hidden">
+          <div class="glass rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="font-display text-xl font-bold text-white">Data Pendaftaran</h2>
+              <div class="flex gap-2">
+                <button onclick="exportRegistrations()" class="btn-secondary text-sm">
+                  Export CSV
+                </button>
+                <button onclick="clearRegistrations()" class="px-4 py-2 rounded-lg bg-merah/20 text-merahLight text-sm font-medium hover:bg-merah/30 transition-all">
+                  Hapus Semua
+                </button>
+              </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-border">
+                    <th class="text-left py-3 px-4 font-medium text-gray-400">Nama</th>
+                    <th class="text-left py-3 px-4 font-medium text-gray-400">Lembaga</th>
+                    <th class="text-left py-3 px-4 font-medium text-gray-400">Jenis</th>
+                    <th class="text-left py-3 px-4 font-medium text-gray-400">Pelatihan</th>
+                    <th class="text-left py-3 px-4 font-medium text-gray-400">Email</th>
+                    <th class="text-left py-3 px-4 font-medium text-gray-400">Tanggal</th>
+                  </tr>
+                </thead>
+                <tbody id="registrationsTable">
+                  <!-- Registrations will be rendered here -->
+                </tbody>
+              </table>
+            </div>
+            
+            <div id="noRegistrations" class="hidden text-center py-8">
+              <p class="text-gray-500">Belum ada pendaftaran.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Settings -->
+        <div id="tab-settings" class="tab-content hidden">
+          <div class="glass rounded-2xl p-6 mb-6">
+            <h2 class="font-display text-xl font-bold text-white mb-6">Pengaturan</h2>
+            
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Password Admin</label>
+              <input type="password" id="adminPassword" class="input-field" placeholder="Password baru">
+              <button onclick="changePassword()" class="btn-secondary text-sm mt-2">Ubah Password</button>
+            </div>
+            
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Nomor WhatsApp</label>
+              <input type="text" id="waNumber" class="input-field" placeholder="628xxxxxxxxxx" value="6289673487573">
+              <button onclick="saveWaNumber()" class="btn-secondary text-sm mt-2">Simpan</button>
+            </div>
+            
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-300 mb-2">Google Apps Script URL (untuk Sheets)</label>
+              <input type="text" id="gasUrl" class="input-field" placeholder="https://script.google.com/macros/s/AKfycbygQSuiWtazMDV7xSai0AjuDsR3W8KV7F-mGRnn90wyI0qaAoJj9WhyJadiISrOBIoh/exec">
+              <button onclick="saveGasUrl()" class="btn-secondary text-sm mt-2">Simpan</button>
+              <p class="text-xs text-gray-500 mt-1">Masukkan URL dari Google Apps Script yang sudah di-deploy untuk mengaktifkan sinkronisasi ke Google Sheets.</p>
+            </div>
+          </div>
+          
+          <!-- GAS Script Generator -->
+          <div class="glass rounded-2xl p-6">
+            <h3 class="font-display text-lg font-bold text-white mb-4">Script Google Apps Script</h3>
+            <p class="text-sm text-gray-400 mb-4">Copy script di bawah ini dan paste ke Google Apps Script Editor, lalu deploy sebagai Web App.</p>
+            
+            <div class="bg-navyDark rounded-xl p-4 mb-4 overflow-x-auto">
+              <pre id="gasScript" class="text-xs text-green-400 whitespace-pre-wrap"></pre>
+            </div>
+            
+            <button onclick="copyGasScript()" class="btn-secondary text-sm">Copy Script</button>
+          </div>
+        </div>
+        
+      </div>
+    </main>
+  </div>
+  
+  <!-- ==================== MODALS ==================== -->
+  
+  <!-- Admin Login Modal -->
+  <div id="adminLoginModal" class="modal-overlay">
+    <div class="modal-content p-8 max-w-md">
+      <h2 class="font-display text-2xl font-bold text-white mb-2">Login Admin</h2>
+      <p class="text-gray-400 text-sm mb-6">Masukkan password untuk mengakses dashboard</p>
+      
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+        <input type="password" id="loginPassword" class="input-field" placeholder="Masukkan password" onkeypress="if(event.key==='Enter')loginAdmin()">
+      </div>
+      
+      <div class="flex gap-3">
+        <button onclick="loginAdmin()" class="btn-primary flex-1">Masuk</button>
+        <button onclick="closeModal('adminLoginModal')" class="btn-secondary">Batal</button>
+      </div>
+      
+      <p id="loginError" class="text-merahLight text-sm mt-4 hidden">Password salah!</p>
+    </div>
+  </div>
+  
+  <!-- Pendaftaran Modal -->
+  <div id="daftarModal" class="modal-overlay">
+    <div class="modal-content p-8 max-w-lg">
+      <h2 class="font-display text-2xl font-bold text-white mb-2">Formulir Pendaftaran</h2>
+      <p class="text-gray-400 text-sm mb-6">Isi data dengan lengkap untuk mendaftar pelatihan</p>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Nama Lengkap</label>
+          <input type="text" id="regNama" class="input-field" placeholder="Nama lengkap">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Lembaga/Sekolah</label>
+          <input type="text" id="regLembaga" class="input-field" placeholder="Nama lembaga/sekolah">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Jenis Pendaftaran</label>
+          <select id="regJenis" class="input-field">
+            <option value="Perseorangan">Perseorangan</option>
+            <option value="Lembaga">Lembaga/Kelompok</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Jenis Pelatihan</label>
+          <select id="regPelatihan" class="input-field">
+            <option value="">Pilih pelatihan</option>
+            <option value="Web App">Pelatihan Pembuatan Web App</option>
+            <option value="AI Pendidikan">Pelatihan AI untuk Pendidikan</option>
+            <option value="AI Novel">Pelatihan AI Menulis Novel</option>
+            <option value="AI Modul">Pelatihan AI Menulis Modul</option>
+            <option value="AI Keuangan">Pelatihan AI Aplikasi Keuangan</option>
+            <option value="AI CBT">Pelatihan AI Web CBT</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Alamat Lembaga</label>
+          <textarea id="regAlamat" class="input-field min-h-20" placeholder="Alamat lengkap lembaga/sekolah"></textarea>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+            <input type="email" id="regEmail" class="input-field" placeholder="email@domain.com">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Website (opsional)</label>
+            <input type="text" id="regWeb" class="input-field" placeholder="https://website.com">
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex gap-3 mt-6">
+        <button onclick="submitRegistration()" class="btn-primary flex-1">Daftar</button>
+        <button onclick="closeModal('daftarModal')" class="btn-secondary">Batal</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Success Modal -->
+  <div id="successModal" class="modal-overlay">
+    <div class="modal-content p-8 text-center max-w-md">
+      <div class="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+      <h2 class="font-display text-2xl font-bold text-white mb-2">Berhasil!</h2>
+      <p id="successMessage" class="text-gray-400">Data berhasil disimpan.</p>
+      <button onclick="closeModal('successModal')" class="btn-primary mt-6">Tutup</button>
+    </div>
+  </div>
+  
+  <!-- ==================== SCRIPTS ==================== -->
+  <script>
+    // ==================== DATA STORE ====================
+    const STORAGE_KEYS = {
+      posts: 'ajarind_posts',
+      promos: 'ajarind_promos',
+      prices: 'ajarind_prices',
+      registrations: 'ajarind_registrations',
+      settings: 'ajarind_settings',
+      landing: 'ajarind_landing'
+    };
+    
+    // Default data
+    const defaultLayanan = [
+      {
+        id: 1,
+        title: 'Pelatihan Pembuatan Web App',
+        description: 'Belajar membuat web app dari nol dengan bantuan AI. Membuat blog gratis, Google Sites, dan GAS dengan pendampingan.',
+        icon: 'code',
+        color: 'oren'
+      },
+      {
+        id: 2,
+        title: 'AI untuk Pendidikan',
+        description: 'Pelatihan AI untuk guru dan sekolah: aplikasi absensi, rapor, jadwal, bank soal, dan administrasi sekolah.',
+        icon: 'school',
+        color: 'kuning'
+      },
+      {
+        id: 3,
+        title: 'AI Menulis Novel',
+        description: 'Pelajari teknik menulis novel dengan bantuan AI, dari ide hingga naskah siap terbit.',
+        icon: 'book',
+        color: 'merah'
+      },
+      {
+        id: 4,
+        title: 'AI Menulis Modul & Buku',
+        description: 'Buat modul ajar dan buku paket berkualitas dengan bantuan AI untuk kebutuhan pembelajaran.',
+        icon: 'file-text',
+        color: 'navy'
+      },
+      {
+        id: 5,
+        title: 'AI Aplikasi Keuangan',
+        description: 'Pelatihan membuat aplikasi keuangan profesional untuk kas, pembukuan, dan laporan keuangan.',
+        icon: 'wallet',
+        color: 'oren'
+      },
+      {
+        id: 6,
+        title: 'AI Web Tes Online/CBT',
+        description: 'Buat aplikasi CBT dan tes online profesional dengan fitur lengkap untuk ujian sekolah.',
+        icon: 'check-square',
+        color: 'kuning'
+      }
+    ];
+    
+    const defaultPrices = [
+      {
+        id: 1,
+        name: 'Paket Basic',
+        amount: 150000,
+        strike: 250000,
+        description: 'Untuk pemula yang ingin belajar dasar',
+        features: ['Akses materi dasar', 'Video tutorial', 'Grup diskusi', 'Sertifikat digital'],
+        badge: '',
+        training: 'Web App'
+      },
+      {
+        id: 2,
+        name: 'Paket Profesional',
+        amount: 350000,
+        strike: 500000,
+        description: 'Paket lengkap dengan pendampingan',
+        features: ['Semua fitur Basic', 'Pendampingan 1-on-1', 'Project portfolio', 'Revisi 3x', 'Sertifikat premium'],
+        badge: 'Best Seller',
+        training: 'AI Pendidikan'
+      },
+      {
+        id: 3,
+        name: 'Paket Institusi',
+        amount: 750000,
+        strike: 1000000,
+        description: 'Untuk lembaga dan kelompok',
+        features: ['Semua fitur Profesional', 'Hingga 10 peserta', 'Kustomisasi materi', 'Support 30 hari', 'Konsultasi lembaga'],
+        badge: 'Rekomendasi',
+        training: 'AI Modul'
+      }
+    ];
+    
+    // Initialize data
+    function initData() {
+      // Initialize settings
+      if (!localStorage.getItem(STORAGE_KEYS.settings)) {
+        localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify({
+          password: 'admin123',
+          waNumber: '6289673487573',
+          gasUrl: ''
+        }));
+      }
+      
+      // Initialize landing
+      if (!localStorage.getItem(STORAGE_KEYS.landing)) {
+        localStorage.setItem(STORAGE_KEYS.landing, JSON.stringify({
+          logo: null,
+          headerImage: null,
+          heroTitle: 'Selamat Datang di AjarInd',
+          heroSubtitle: 'Platform pelatihan digital untuk guru, kepala sekolah, dan lembaga pendidikan. Belajar membuat aplikasi, memanfaatkan AI, dan mengembangkan kompetensi digital dengan pendampingan ahli.'
+        }));
+      }
+      
+      // Initialize prices
+      if (!localStorage.getItem(STORAGE_KEYS.prices)) {
+        localStorage.setItem(STORAGE_KEYS.prices, JSON.stringify(defaultPrices));
+      }
+      
+      // Initialize empty arrays if not exists
+      if (!localStorage.getItem(STORAGE_KEYS.posts)) {
+        localStorage.setItem(STORAGE_KEYS.posts, JSON.stringify([]));
+      }
+      if (!localStorage.getItem(STORAGE_KEYS.promos)) {
+        localStorage.setItem(STORAGE_KEYS.promos, JSON.stringify([]));
+      }
+      if (!localStorage.getItem(STORAGE_KEYS.registrations)) {
+        localStorage.setItem(STORAGE_KEYS.registrations, JSON.stringify([]));
+      }
+    }
+    
+    // Data access functions
+    function getData(key) {
+      const data = localStorage.getItem(STORAGE_KEYS[key]);
+      return data ? JSON.parse(data) : null;
+    }
+    
+    function setData(key, data) {
+      localStorage.setItem(STORAGE_KEYS[key], JSON.stringify(data));
+    }
+    
+    // ==================== RENDER FUNCTIONS ====================
+    
+    // Get icon SVG
+    function getIcon(name, className = 'w-6 h-6') {
+      const icons = {
+        code: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>',
+        school: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>',
+        book: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>',
+        'file-text': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>',
+        wallet: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>',
+        'check-square': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>'
+      };
+      return `<svg class="${className}" fill="none" stroke="currentColor" viewBox="0 0 24 24">${icons[name] || icons.code}</svg>`;
+    }
+    
+    // Render Layanan
+    function renderLayanan() {
+      const grid = document.getElementById('layananGrid');
+      if (!grid) return;
+      
+      const colors = {
+        oren: 'from-oren to-orenLight',
+        kuning: 'from-kuning to-kuningLight',
+        merah: 'from-merah to-merahLight',
+        navy: 'from-navy-light to-navy'
+      };
+      
+      const textColors = {
+        oren: 'text-navy',
+        kuning: 'text-navy',
+        merah: 'text-white',
+        navy: 'text-white'
+      };
+      
+      grid.innerHTML = defaultLayanan.map((item, index) => `
+        <div class="card-hover glass rounded-2xl p-6 animate-slide-up" style="opacity: 0; animation-delay: ${index * 0.1}s;">
+          <div class="number-badge bg-gradient-to-br ${colors[item.color]} ${textColors[item.color]} mb-4">
+            ${item.id}
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-3">${item.title}</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">${item.description}</p>
+        </div>
+      `).join('');
+    }
+    
+    // Render Posts
+    function renderPosts() {
+      const posts = getData('posts') || [];
+      const grid = document.getElementById('postsGrid');
+      const noMessage = document.getElementById('noPostsMessage');
+      
+      if (!grid) return;
+      
+      if (posts.length === 0) {
+        grid.innerHTML = '';
+        if (noMessage) noMessage.classList.remove('hidden');
+        return;
+      }
+      
+      if (noMessage) noMessage.classList.add('hidden');
+      
+      grid.innerHTML = posts.slice(0, 6).map((post, index) => `
+        <article class="card-hover glass rounded-2xl overflow-hidden animate-slide-up" style="opacity: 0; animation-delay: ${index * 0.1}s;">
+          ${post.image ? `<img src="${post.image}" alt="${post.title}" class="w-full h-48 object-cover">` : `
+            <div class="w-full h-48 bg-gradient-to-br from-navy to-navyDark flex items-center justify-center">
+              <svg class="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+              </svg>
+            </div>
+          `}
+          <div class="p-6">
+            <span class="inline-block px-2 py-1 rounded text-xs font-medium bg-oren/20 text-orenLight mb-3">${post.category}</span>
+            <h3 class="font-display font-bold text-white mb-2">${post.title}</h3>
+            <p class="text-gray-400 text-sm line-clamp-3">${post.content}</p>
+            <div class="text-xs text-gray-500 mt-4">${new Date(post.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+          </div>
+        </article>
+      `).join('');
+    }
+    
+    // Render Promos
+    function renderPromos() {
+      const promos = getData('promos') || [];
+      const grid = document.getElementById('promoGrid');
+      const noMessage = document.getElementById('noPromoMessage');
+      
+      if (!grid) return;
+      
+      // Filter expired promos
+      const now = new Date();
+      const activePromos = promos.filter(p => !p.expiry || new Date(p.expiry) > now);
+      
+      if (activePromos.length === 0) {
+        grid.innerHTML = '';
+        if (noMessage) noMessage.classList.remove('hidden');
+        return;
+      }
+      
+      if (noMessage) noMessage.classList.add('hidden');
+      
+      grid.innerHTML = activePromos.map((promo, index) => `
+        <div class="card-hover glass rounded-2xl overflow-hidden animate-slide-up" style="opacity: 0; animation-delay: ${index * 0.1}s;">
+          ${promo.image ? `<img src="${promo.image}" alt="${promo.title}" class="w-full h-48 object-cover">` : `
+            <div class="w-full h-48 bg-gradient-to-br from-merah to-oren flex items-center justify-center">
+              <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+              </svg>
+            </div>
+          `}
+          <div class="p-6">
+            <h3 class="font-display font-bold text-white mb-2">${promo.title}</h3>
+            <p class="text-gray-400 text-sm">${promo.description}</p>
+            ${promo.expiry ? `<div class="text-xs text-oren mt-3">Berlaku hingga: ${new Date(promo.expiry).toLocaleDateString('id-ID')}</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // Render Prices
+    function renderPrices() {
+      const prices = getData('prices') || [];
+      const grid = document.getElementById('priceGrid');
+      
+      if (!grid || prices.length === 0) return;
+      
+      grid.innerHTML = prices.map((item, index) => `
+        <div class="card-hover glass rounded-2xl p-6 relative overflow-hidden animate-slide-up ${item.badge ? 'ring-2 ring-oren' : ''}" style="opacity: 0; animation-delay: ${index * 0.1}s;">
+          ${item.badge ? `<div class="absolute top-0 right-0 bg-gradient-to-r from-oren to-kuning text-navy text-xs font-bold px-3 py-1 rounded-bl-lg">${item.badge}</div>` : ''}
+          
+          <div class="text-xs text-gray-400 mb-2">${item.training}</div>
+          <h3 class="font-display text-xl font-bold text-white mb-2">${item.name}</h3>
+          <p class="text-gray-400 text-sm mb-4">${item.description}</p>
+          
+          <div class="mb-6">
+            ${item.strike ? `<span class="text-gray-500 line-through text-sm">Rp ${item.strike.toLocaleString('id-ID')}</span>` : ''}
+            <div class="text-3xl font-bold text-oren">Rp ${item.amount.toLocaleString('id-ID')}</div>
+          </div>
+          
+          <ul class="space-y-2 mb-6">
+            ${item.features.map(f => `
+              <li class="flex items-start gap-2 text-sm text-gray-300">
+                <svg class="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                ${f}
+              </li>
+            `).join('')}
+          </ul>
+          
+          <button onclick="openModal('daftarModal')" class="btn-primary w-full">Daftar Sekarang</button>
+        </div>
+      `).join('');
+    }
+    
+    // Render Landing Content
+    function renderLanding() {
+      const landing = getData('landing');
+      if (!landing) return;
+      
+      // Hero title
+      const heroTitle = document.getElementById('heroTitle');
+      if (heroTitle && landing.heroTitle) {
+        heroTitle.innerHTML = `<span class="text-white">Selamat Datang di</span><br><span class="bg-gradient-to-r from-oren via-kuning to-orenLight bg-clip-text text-transparent">${landing.heroTitle.replace('Selamat Datang di ', '')}</span>`;
+      }
+      
+      // Hero subtitle
+      const heroSubtitle = document.getElementById('heroSubtitle');
+      if (heroSubtitle && landing.heroSubtitle) {
+        heroSubtitle.textContent = landing.heroSubtitle;
+      }
+      
+      // Logo
+      const logoDisplay = document.getElementById('logoDisplay');
+      if (logoDisplay && landing.logo) {
+        logoDisplay.innerHTML = `<img src="${landing.logo}" alt="Logo" class="w-full h-full object-cover rounded-xl">`;
+      }
+      
+      // Header image
+      const heroImageContainer = document.getElementById('heroImageContainer');
+      if (heroImageContainer && landing.headerImage) {
+        heroImageContainer.innerHTML = `<img src="${landing.headerImage}" alt="Header" class="w-full max-w-lg mx-auto rounded-2xl shadow-2xl">`;
+      }
+    }
+    
+    // ==================== MODAL FUNCTIONS ====================
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+    
+    // Close modal on backdrop click
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+    
+    // ==================== ADMIN FUNCTIONS ====================
+    function loginAdmin() {
+      const password = document.getElementById('loginPassword').value;
+      const settings = getData('settings');
+      const error = document.getElementById('loginError');
+      
+      if (password === settings.password) {
+        closeModal('adminLoginModal');
+        document.getElementById('landingPage').classList.add('hidden');
+        document.getElementById('adminDashboard').classList.remove('hidden');
+        document.getElementById('loginPassword').value = '';
+        if (error) error.classList.add('hidden');
+        loadAdminData();
+      } else {
+        if (error) error.classList.remove('hidden');
+      }
+    }
+    
+    function logoutAdmin() {
+      document.getElementById('adminDashboard').classList.add('hidden');
+      document.getElementById('landingPage').classList.remove('hidden');
+      renderAll();
+    }
+    
+    function switchAdminTab(tabName) {
+      // Update tab buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.tab === tabName) {
+          btn.classList.add('active');
+        }
+      });
+      
+      // Update tab contents
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.add('hidden');
+      });
+      
+      const activeTab = document.getElementById(`tab-${tabName}`);
+      if (activeTab) {
+        activeTab.classList.remove('hidden');
+      }
+    }
+    
+    function loadAdminData() {
+      // Load landing content
+      const landing = getData('landing');
+      if (landing) {
+        document.getElementById('heroTitleInput').value = landing.heroTitle || '';
+        document.getElementById('heroSubtitleInput').value = landing.heroSubtitle || '';
+        
+        if (landing.logo) {
+          document.getElementById('adminLogoPreview').innerHTML = `<img src="${landing.logo}" alt="Logo" class="w-full h-full object-cover rounded-xl">`;
+        }
+        
+        if (landing.headerImage) {
+          document.getElementById('headerImagePreview').innerHTML = `<img src="${landing.headerImage}" alt="Header" class="w-full h-full object-cover rounded-xl">`;
+        }
+      }
+      
+      // Load settings
+      const settings = getData('settings');
+      if (settings) {
+        document.getElementById('waNumber').value = settings.waNumber || '';
+        document.getElementById('gasUrl').value = settings.gasUrl || '';
+      }
+      
+      // Render admin lists
+      renderAdminPosts();
+      renderAdminPromos();
+      renderAdminPrices();
+      renderRegistrations();
+      generateGasScript();
+    }
+    
+    // ==================== ADMIN: LANDING EDITOR ====================
+    function handleLogoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const landing = getData('landing');
+        landing.logo = e.target.result;
+        setData('landing', landing);
+        document.getElementById('adminLogoPreview').innerHTML = `<img src="${e.target.result}" alt="Logo" class="w-full h-full object-cover rounded-xl">`;
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    function handleHeaderImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const landing = getData('landing');
+        landing.headerImage = e.target.result;
+        setData('landing', landing);
+        document.getElementById('headerImagePreview').innerHTML = `<img src="${e.target.result}" alt="Header" class="w-full h-full object-cover rounded-xl">`;
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    function saveLandingContent() {
+      const landing = getData('landing');
+      landing.heroTitle = document.getElementById('heroTitleInput').value;
+      landing.heroSubtitle = document.getElementById('heroSubtitleInput').value;
+      setData('landing', landing);
+      showSuccess('Konten landing page berhasil disimpan!');
+    }
+    
+    // ==================== ADMIN: POSTS ====================
+    function addPost() {
+      const title = document.getElementById('postTitle').value.trim();
+      const category = document.getElementById('postCategory').value;
+      const content = document.getElementById('postContent').value.trim();
+      const imageFile = document.getElementById('postImage').files[0];
+      
+      if (!title || !content) {
+        alert('Judul dan konten harus diisi!');
+        return;
+      }
+      
+      const addPostData = (imageData = null) => {
+        const posts = getData('posts') || [];
+        const newPost = {
+          id: Date.now(),
+          title,
+          category,
+          content,
+          image: imageData,
+          date: new Date().toISOString()
+        };
+        posts.unshift(newPost);
+        setData('posts', posts);
+        
+        // Clear form
+        document.getElementById('postTitle').value = '';
+        document.getElementById('postContent').value = '';
+        document.getElementById('postImage').value = '';
+        
+        renderAdminPosts();
+        showSuccess('Artikel berhasil ditambahkan!');
+      };
+      
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          addPostData(e.target.result);
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        addPostData();
+      }
+    }
+    
+    function deletePost(id) {
+      if (!confirm('Hapus artikel ini?')) return;
+      const posts = getData('posts') || [];
+      const filtered = posts.filter(p => p.id !== id);
+      setData('posts', filtered);
+      renderAdminPosts();
+    }
+    
+    function renderAdminPosts() {
+      const posts = getData('posts') || [];
+      const list = document.getElementById('adminPostsList');
+      
+      if (posts.length === 0) {
+        list.innerHTML = '<p class="text-gray-500 text-center py-4">Belum ada artikel.</p>';
+        return;
+      }
+      
+      list.innerHTML = posts.map(post => `
+        <div class="flex items-center justify-between p-4 bg-navyDark rounded-xl">
+          <div class="flex-1 min-w-0">
+            <h4 class="font-medium text-white truncate">${post.title}</h4>
+            <div class="text-xs text-gray-400">${post.category} - ${new Date(post.date).toLocaleDateString('id-ID')}</div>
+          </div>
+          <button onclick="deletePost(${post.id})" class="ml-4 p-2 rounded-lg hover:bg-merah/20 text-merahLight transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </button>
+        </div>
+      `).join('');
+    }
+    
+    // ==================== ADMIN: PROMO ====================
+    function addPromo() {
+      const title = document.getElementById('promoTitle').value.trim();
+      const expiry = document.getElementById('promoExpiry').value;
+      const description = document.getElementById('promoDescription').value.trim();
+      const imageFile = document.getElementById('promoImage').files[0];
+      
+      if (!title) {
+        alert('Judul promo harus diisi!');
+        return;
+      }
+      
+      const addPromoData = (imageData = null) => {
+        const promos = getData('promos') || [];
+        const newPromo = {
+          id: Date.now(),
+          title,
+          expiry,
+          description,
+          image: imageData,
+          date: new Date().toISOString()
+        };
+        promos.unshift(newPromo);
+        setData('promos', promos);
+        
+        // Clear form
+        document.getElementById('promoTitle').value = '';
+        document.getElementById('promoExpiry').value = '';
+        document.getElementById('promoDescription').value = '';
+        document.getElementById('promoImage').value = '';
+        
+        renderAdminPromos();
+        showSuccess('Promo berhasil ditambahkan!');
+      };
+      
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          addPromoData(e.target.result);
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        addPromoData();
+      }
+    }
+    
+    function deletePromo(id) {
+      if (!confirm('Hapus promo ini?')) return;
+      const promos = getData('promos') || [];
+      const filtered = promos.filter(p => p.id !== id);
+      setData('promos', filtered);
+      renderAdminPromos();
+    }
+    
+    function renderAdminPromos() {
+      const promos = getData('promos') || [];
+      const list = document.getElementById('adminPromoList');
+      
+      if (promos.length === 0) {
+        list.innerHTML = '<p class="text-gray-500 text-center py-4">Belum ada promo.</p>';
+        return;
+      }
+      
+      list.innerHTML = promos.map(promo => `
+        <div class="flex items-center justify-between p-4 bg-navyDark rounded-xl">
+          <div class="flex items-center gap-4 flex-1 min-w-0">
+            ${promo.image ? `<img src="${promo.image}" alt="" class="w-12 h-12 rounded-lg object-cover">` : ''}
+            <div class="flex-1 min-w-0">
+              <h4 class="font-medium text-white truncate">${promo.title}</h4>
+              <div class="text-xs text-gray-400">${promo.expiry ? 'Berlaku hingga ' + new Date(promo.expiry).toLocaleDateString('id-ID') : 'Tanpa batas waktu'}</div>
+            </div>
+          </div>
+          <button onclick="deletePromo(${promo.id})" class="ml-4 p-2 rounded-lg hover:bg-merah/20 text-merahLight transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </button>
+        </div>
+      `).join('');
+    }
+    
+    // ==================== ADMIN: PRICE LIST ====================
+    function addPrice() {
+      const name = document.getElementById('priceName').value.trim();
+      const amount = parseInt(document.getElementById('priceAmount').value) || 0;
+      const description = document.getElementById('priceDescription').value.trim();
+      const featuresText = document.getElementById('priceFeatures').value.trim();
+      const badge = document.getElementById('priceBadge').value;
+      const strike = parseInt(document.getElementById('priceStrike').value) || null;
+      const training = document.getElementById('priceTraining').value;
+      
+      if (!name || amount <= 0) {
+        alert('Nama dan harga harus diisi dengan benar!');
+        return;
+      }
+      
+      const features = featuresText.split('\n').filter(f => f.trim());
+      
+      const prices = getData('prices') || [];
+      const newPrice = {
+        id: Date.now(),
+        name,
+        amount,
+        description,
+        features,
+        badge,
+        strike,
+        training
+      };
+      prices.push(newPrice);
+      setData('prices', prices);
+      
+      // Clear form
+      document.getElementById('priceName').value = '';
+      document.getElementById('priceAmount').value = '';
+      document.getElementById('priceDescription').value = '';
+      document.getElementById('priceFeatures').value = '';
+      document.getElementById('priceBadge').value = '';
+      document.getElementById('priceStrike').value = '';
+      
+      renderAdminPrices();
+      showSuccess('Paket harga berhasil ditambahkan!');
+    }
+    
+    function deletePrice(id) {
+      if (!confirm('Hapus paket ini?')) return;
+      const prices = getData('prices') || [];
+      const filtered = prices.filter(p => p.id !== id);
+      setData('prices', filtered);
+      renderAdminPrices();
+    }
+    
+    function renderAdminPrices() {
+      const prices = getData('prices') || [];
+      const list = document.getElementById('adminPriceList');
+      
+      if (prices.length === 0) {
+        list.innerHTML = '<p class="text-gray-500 text-center py-4">Belum ada paket harga.</p>';
+        return;
+      }
+      
+      list.innerHTML = prices.map(price => `
+        <div class="flex items-center justify-between p-4 bg-navyDark rounded-xl">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <h4 class="font-medium text-white">${price.name}</h4>
+              ${price.badge ? `<span class="text-xs px-2 py-0.5 rounded bg-oren/20 text-orenLight">${price.badge}</span>` : ''}
+            </div>
+            <div class="text-sm text-oren font-semibold">Rp ${price.amount.toLocaleString('id-ID')}</div>
+            <div class="text-xs text-gray-400">${price.training}</div>
+          </div>
+          <button onclick="deletePrice(${price.id})" class="ml-4 p-2 rounded-lg hover:bg-merah/20 text-merahLight transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </button>
+        </div>
+      `).join('');
+    }
+    
+    // ==================== ADMIN: REGISTRATIONS ====================
+    function renderRegistrations() {
+      const registrations = getData('registrations') || [];
+      const table = document.getElementById('registrationsTable');
+      const noData = document.getElementById('noRegistrations');
+      
+      if (registrations.length === 0) {
+        table.innerHTML = '';
+        if (noData) noData.classList.remove('hidden');
+        return;
+      }
+      
+      if (noData) noData.classList.add('hidden');
+      
+      table.innerHTML = registrations.map(reg => `
+        <tr class="border-b border-border/50 hover:bg-navyDark/50">
+          <td class="py-3 px-4 text-white">${reg.nama}</td>
+          <td class="py-3 px-4 text-gray-300">${reg.lembaga}</td>
+          <td class="py-3 px-4"><span class="px-2 py-1 rounded text-xs ${reg.jenis === 'Lembaga' ? 'bg-oren/20 text-orenLight' : 'bg-kuning/20 text-kuning'}">${reg.jenis}</span></td>
+          <td class="py-3 px-4 text-gray-300">${reg.pelatihan}</td>
+          <td class="py-3 px-4 text-gray-300">${reg.email}</td>
+          <td class="py-3 px-4 text-gray-400 text-xs">${new Date(reg.date).toLocaleDateString('id-ID')}</td>
+        </tr>
+      `).join('');
+    }
+    
+    function exportRegistrations() {
+      const registrations = getData('registrations') || [];
+      if (registrations.length === 0) {
+        alert('Tidak ada data untuk diekspor.');
+        return;
+      }
+      
+      const headers = ['Nama', 'Lembaga', 'Jenis', 'Pelatihan', 'Alamat', 'Email', 'Website', 'Tanggal'];
+      const rows = registrations.map(r => [
+        r.nama,
+        r.lembaga,
+        r.jenis,
+        r.pelatihan,
+        r.alamat,
+        r.email,
+        r.web || '',
+        new Date(r.date).toLocaleDateString('id-ID')
+      ]);
+      
+      const csv = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `pendaftaran_ajarind_${new Date().toISOString().split('T')[0]}.csv`;
+      link.click();
+    }
+    
+    function clearRegistrations() {
+      if (!confirm('Hapus semua data pendaftaran? Tindakan ini tidak dapat dibatalkan.')) return;
+      setData('registrations', []);
+      renderRegistrations();
+    }
+    
+    // ==================== ADMIN: SETTINGS ====================
+    function changePassword() {
+      const newPassword = document.getElementById('adminPassword').value.trim();
+      if (!newPassword) {
+        alert('Password tidak boleh kosong!');
+        return;
+      }
+      if (newPassword.length < 6) {
+        alert('Password minimal 6 karakter!');
+        return;
+      }
+      
+      const settings = getData('settings');
+      settings.password = newPassword;
+      setData('settings', settings);
+      document.getElementById('adminPassword').value = '';
+      showSuccess('Password berhasil diubah!');
+    }
+    
+    function saveWaNumber() {
+      const waNumber = document.getElementById('waNumber').value.trim();
+      if (!waNumber) {
+        alert('Nomor WhatsApp tidak boleh kosong!');
+        return;
+      }
+      
+      const settings = getData('settings');
+      settings.waNumber = waNumber;
+      setData('settings', settings);
+      showSuccess('Nomor WhatsApp berhasil disimpan!');
+    }
+    
+    function saveGasUrl() {
+      const gasUrl = document.getElementById('gasUrl').value.trim();
+      const settings = getData('settings');
+      settings.gasUrl = gasUrl;
+      setData('settings', settings);
+      showSuccess('URL Google Apps Script berhasil disimpan!');
+    }
+    
+    function generateGasScript() {
+      const script = `// Google Apps Script untuk AjarInd
+// 1. Buka script.google.com
+// 2. Buat project baru
+// 3. Copy paste script ini
+// 4. Deploy as Web App
+
+const SPREADSHEET_ID = PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');
+
+function doGet(e) {
+  return handleRequest(e);
+}
+
+function doPost(e) {
+  return handleRequest(e);
+}
+
+function handleRequest(e) {
+  const action = e.parameter.action;
+  let result;
+  
+  try {
+    switch(action) {
+      case 'register':
+        result = saveRegistration(JSON.parse(e.parameter.data));
+        break;
+      case 'getRegistrations':
+        result = getRegistrations();
+        break;
+      case 'initSheet':
+        result = initSpreadsheet();
+        break;
+      default:
+        result = { success: false, message: 'Unknown action' };
+    }
+  } catch(err) {
+    result = { success: false, message: err.toString() };
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function initSpreadsheet() {
+  if (SPREADSHEET_ID) {
+    return { success: true, spreadsheetId: SPREADSHEET_ID };
+  }
+  
+  const ss = SpreadsheetApp.create('AjarInd Database');
+  const id = ss.getId();
+  PropertiesService.getScriptProperties().setProperty('SPREADSHEET_ID', id);
+  
+  // Create sheets
+  const registrationsSheet = ss.getSheetByName('Pendaftaran') || ss.insertSheet('Pendaftaran');
+  registrationsSheet.appendRow(['ID', 'Nama', 'Lembaga', 'Jenis', 'Pelatihan', 'Alamat', 'Email', 'Website', 'Tanggal']);
+  registrationsSheet.getRange('A1:I1').setFontWeight('bold').setBackground('#1e3a5f').setFontColor('white');
+  
+  return { success: true, spreadsheetId: id, url: ss.getUrl() };
+}
+
+function saveRegistration(data) {
+  initSpreadsheet();
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName('Pendaftaran');
+  
+  sheet.appendRow([
+    data.id || Date.now(),
+    data.nama,
+    data.lembaga,
+    data.jenis,
+    data.pelatihan,
+    data.alamat,
+    data.email,
+    data.web || '',
+    new Date().toISOString()
+  ]);
+  
+  return { success: true, message: 'Data berhasil disimpan' };
+}
+
+function getRegistrations() {
+  initSpreadsheet();
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName('Pendaftaran');
+  const data = sheet.getDataRange().getValues();
+  
+  if (data.length <= 1) return { success: true, data: [] };
+  
+  const headers = data[0];
+  const rows = data.slice(1).map(row => {
+    const obj = {};
+    headers.forEach((h, i) => obj[h.toLowerCase()] = row[i]);
+    return obj;
+  });
+  
+  return { success: true, data: rows };
+}`;
+      
+      document.getElementById('gasScript').textContent = script;
+    }
+    
+    function copyGasScript() {
+      const script = document.getElementById('gasScript').textContent;
+      navigator.clipboard.writeText(script).then(() => {
+        showSuccess('Script berhasil disalin!');
+      }).catch(() => {
+        alert('Gagal menyalin. Silakan copy manual.');
+      });
+    }
+    
+    // ==================== REGISTRATION ====================
+    async function submitRegistration() {
+      const data = {
+        id: Date.now(),
+        nama: document.getElementById('regNama').value.trim(),
+        lembaga: document.getElementById('regLembaga').value.trim(),
+        jenis: document.getElementById('regJenis').value,
+        pelatihan: document.getElementById('regPelatihan').value,
+        alamat: document.getElementById('regAlamat').value.trim(),
+        email: document.getElementById('regEmail').value.trim(),
+        web: document.getElementById('regWeb').value.trim(),
+        date: new Date().toISOString()
+      };
+      
+      if (!data.nama || !data.email || !data.pelatihan) {
+        alert('Nama, email, dan jenis pelatihan harus diisi!');
+        return;
+      }
+      
+      // Save to localStorage
+      const registrations = getData('registrations') || [];
+      registrations.push(data);
+      setData('registrations', registrations);
+      
+      // Try to sync with GAS if configured
+      const settings = getData('settings');
+      if (settings.gasUrl) {
+        try {
+          await fetch(`${settings.gasUrl}?action=register&data=${encodeURIComponent(JSON.stringify(data))}`);
+        } catch (e) {
+          console.log('GAS sync failed, data saved locally');
+        }
+      }
+      
+      // Clear form
+      document.getElementById('regNama').value = '';
+      document.getElementById('regLembaga').value = '';
+      document.getElementById('regAlamat').value = '';
+      document.getElementById('regEmail').value = '';
+      document.getElementById('regWeb').value = '';
+      
+      closeModal('daftarModal');
+      showSuccess('Pendaftaran berhasil! Kami akan menghubungi Anda segera.');
+    }
+    
+    // ==================== UTILITY FUNCTIONS ====================
+    function showSuccess(message) {
+      document.getElementById('successMessage').textContent = message;
+      openModal('successModal');
+    }
+    
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      if (menu) {
+        menu.classList.toggle('hidden');
+      }
+    }
+    
+    function renderAll() {
+      renderLayanan();
+      renderPosts();
+      renderPromos();
+      renderPrices();
+      renderLanding();
+    }
+    
+    // ==================== SCROLL REVEAL ====================
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.animate-slide-up, .animate-slide-in-right').forEach(el => {
+        observer.observe(el);
+      });
+    }
+    
+    // ==================== PWA SERVICE WORKER ====================
+    function registerServiceWorker() {
+      if ('serviceWorker' in navigator) {
+        const swCode = `
+          const CACHE_NAME = 'ajarind-v1';
+          const urlsToCache = ['/'];
+          
+          self.addEventListener('install', event => {
+            event.waitUntil(
+              caches.open(CACHE_NAME)
+                .then(cache => cache.addAll(urlsToCache))
+            );
+          });
+          
+          self.addEventListener('fetch', event => {
+            event.respondWith(
+              caches.match(event.request)
+                .then(response => response || fetch(event.request))
+            );
+          });
+        `;
+        
+        const blob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+        
+        navigator.serviceWorker.register(swUrl).catch(err => {
+          console.log('SW registration failed:', err);
+        });
+      }
+    }
+    
+    // ==================== INIT ====================
+    document.addEventListener('DOMContentLoaded', () => {
+      initData();
+      renderAll();
+      initScrollReveal();
+      registerServiceWorker();
+      
+      // Animate hero after load
+      setTimeout(() => {
+        document.querySelectorAll('#heroSection .animate-slide-up, #heroSection .animate-slide-in-right').forEach(el => {
+          el.style.opacity = '1';
+        });
+      }, 100);
+    });
+    
+    // Escape key to close modals
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
