@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celoteh Jaka — Tulisan, Narasi, dan Celoteh Kehidupan</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PapaParse -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <!-- Marked.js - Markdown to HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- GSAP untuk animasi -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Highlight.js untuk syntax highlighting code block -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ht':  '#0a3d1f',
+                        'hs':  '#15803d',
+                        'hm':  '#22c55e',
+                        'hml': '#4ade80',
+                        'hp':  '#bbf7d0',
+                        'hb':  '#f0fdf4',
+                    },
+                    fontFamily: {
+                        'display': ['"Playfair Display"', 'serif'],
+                        'body':    ['"Source Sans 3"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Source Sans 3', sans-serif; }
+
+        .hero-bg {
+            background: url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80') center/cover no-repeat fixed;
+            position: relative;
+        }
+        
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(10,61,31,0.85) 0%, rgba(34,197,94,0.4) 100%);
+            pointer-events: none;
+        }
+
+        .card-modern {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(2px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(187,247,208,0.5);
+        }
+        
+        .card-modern:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 25px 40px -12px rgba(10,61,31,0.25);
+            border-color: #22c55e;
+        }
+
+        .skeleton-shimmer {
+            background: linear-gradient(110deg, #e8f5e9 8%, #c8e6c9 18%, #e8f5e9 33%);
+            background-size: 200% 100%;
+            animation: shimmerWave 1.8s linear infinite;
+        }
+        
+        @keyframes shimmerWave {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f0fdf4; }
+        ::-webkit-scrollbar-thumb { background: #15803d; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0a3d1f; }
+
+        /* Article content styling untuk Markdown */
+        .article-content {
+            font-size: 1.125rem;
+            line-height: 1.85;
+        }
+        
+        .article-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0a3d1f;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0a3d1f;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+            border-bottom: 2px solid #bbf7d0;
+            padding-bottom: 0.5rem;
+        }
+        
+        .article-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #15803d;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-content p {
+            margin-bottom: 1.25rem;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid #22c55e;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #4b5563;
+            background: #f0fdf4;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+        }
+        
+        .article-content code {
+            background: #f3f4f6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-family: monospace;
+        }
+        
+        .article-content pre {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+        
+        .article-content img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content th, .article-content td {
+            border: 1px solid #bbf7d0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        .article-content th {
+            background: #bbf7d0;
+            font-weight: 600;
+        }
+        
+        .article-content hr {
+            margin: 2rem 0;
+            border: none;
+            border-top: 2px solid #bbf7d0;
+        }
+
+        .category-pill {
+            transition: all 0.2s ease;
+        }
+        
+        .category-pill.active {
+            background: #15803d !important;
+            color: white !important;
+        }
+        
+        .profile-avatar {
+            background: linear-gradient(135deg, #0a3d1f, #15803d);
+        }
+        
+        /* Markdown cheatsheet popup */
+        .cheatsheet {
+            transition: all 0.3s ease;
+        }
+        .cheatsheet:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-hb text-gray-800 font-body">
+
+<!-- Header -->
+<header id="navbar" class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-xl border-b border-hp/30 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+        <a href="#" onclick="showHome();return false" class="flex items-center gap-2.5 shrink-0 group">
+            <div class="w-9 h-9 bg-ht rounded-lg flex items-center justify-center group-hover:bg-hs transition-all duration-300 group-hover:scale-105">
+                <i class="fa-solid fa-feather-pointed text-white text-sm"></i>
+            </div>
+            <span class="font-display font-bold text-xl text-ht hidden sm:inline">Celoteh Jaka</span>
+        </a>
+
+        <div class="hidden md:flex flex-1 max-w-md">
+            <div class="relative w-full">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="searchDesktop" placeholder="Cari artikel..."
+                       class="w-full pl-10 pr-4 py-2.5 bg-hb border border-hp rounded-xl text-sm focus:outline-none focus:border-hs transition-all"
+                       oninput="handleSearch(this.value)">
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+            <button onclick="toggleMobileSearch()" class="md:hidden w-9 h-9 flex items-center justify-center rounded-lg bg-hb hover:bg-hp transition-colors">
+                <i class="fa-solid fa-magnifying-glass text-ht text-sm"></i>
+            </button>
+            <button onclick="showCheatsheet()" class="px-3 py-2.5 bg-hp text-ht text-sm font-semibold rounded-xl hover:bg-hml transition-all">
+                <i class="fa-solid fa-markdown"></i>
+            </button>
+            <button onclick="showAbout()" class="px-4 py-2.5 bg-ht text-white text-sm font-semibold rounded-xl hover:bg-hs transition-all duration-300 hover:shadow-lg">
+                Tentang
+            </button>
+        </div>
+    </div>
+
+    <div id="mobileSearch" class="hidden md:hidden px-4 pb-3">
+        <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+            <input type="text" id="searchMobile" placeholder="Cari artikel..."
+                   class="w-full pl-10 pr-4 py-2.5 bg-hb border border-hp rounded-xl text-sm focus:outline-none focus:border-hs transition-all"
+                   oninput="handleSearch(this.value)">
+        </div>
+    </div>
+</header>
+
+<main id="app">
+    <!-- HOME VIEW -->
+    <div id="homeView">
+        <section class="hero-bg relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+            <div class="relative z-10 text-center px-5 max-w-3xl mx-auto">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-white/90 text-sm mb-7 animate-float">
+                    <i class="fa-solid fa-leaf text-hml"></i>
+                    <span>Tulisan, Narasi, dan Celoteh Kehidupan</span>
+                </div>
+                <h1 class="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-6 leading-[.95] tracking-tight">
+                    Celoteh<br><span class="text-hml">Jaka</span>
+                </h1>
+                <p class="text-white/90 text-lg sm:text-xl font-light leading-relaxed max-w-xl mx-auto mb-10">
+                    Ruang berbagi pemikiran seputar sosial, teknologi, kepenulisan, kehidupan, dan bagaimana AI mengubah cara kita bercerita.
+                </p>
+                <a href="#daftar-artikel" class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-white text-ht font-semibold rounded-xl hover:bg-hp transition-all duration-300 shadow-lg hover:shadow-xl group">
+                    <span>Mulai Membaca</span>
+                    <i class="fa-solid fa-arrow-down text-sm group-hover:translate-y-1 transition-transform"></i>
+                </a>
+            </div>
+        </section>
+
+        <div class="wave-divider relative -mt-1">
+            <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M0 40C240 80 480 0 720 40C960 80 1200 0 1440 40V100H0V40Z" fill="#f0fdf4"/>
+            </svg>
+        </div>
+
+        <section id="daftar-artikel" class="py-14 sm:py-20 px-4 sm:px-6">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12 reveal">
+                    <span class="inline-block px-3.5 py-1 bg-hp text-ht text-[11px] font-bold rounded-full uppercase tracking-widest mb-3">Artikel Terbaru</span>
+                    <h2 class="font-display font-bold text-3xl sm:text-4xl text-ht mb-3">Bacaan Pilihan</h2>
+                    <p class="text-gray-500 max-w-lg mx-auto leading-relaxed">Kumpulan tulisan yang mungkin bisa menginspirasi, membuatmu berpikir ulang, atau sekadar menemani kopi pagimu.</p>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="flex flex-wrap justify-center gap-2 mb-8 reveal">
+                    <button onclick="filterByCategory('all')" class="category-pill px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-600 hover:bg-hs hover:text-white transition-all active" data-cat="all">Semua</button>
+                    <button onclick="filterByCategory('teknologi')" class="category-pill px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-600 hover:bg-hs hover:text-white transition-all" data-cat="teknologi">💻 Teknologi & AI</button>
+                    <button onclick="filterByCategory('kepenulisan')" class="category-pill px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-600 hover:bg-hs hover:text-white transition-all" data-cat="kepenulisan">✍️ Kepenulisan</button>
+                    <button onclick="filterByCategory('kehidupan')" class="category-pill px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-600 hover:bg-hs hover:text-white transition-all" data-cat="kehidupan">🌿 Kehidupan</button>
+                    <button onclick="filterByCategory('sosial')" class="category-pill px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-600 hover:bg-hs hover:text-white transition-all" data-cat="sosial">🤝 Sosial</button>
+                </div>
+
+                <div id="searchInfo" class="hidden mb-6 flex items-center justify-between bg-white rounded-xl px-5 py-3 border border-hp reveal">
+                    <p class="text-sm text-gray-500">Menampilkan <span id="resultCount" class="font-bold text-ht">0</span> artikel untuk "<span id="searchTerm" class="italic text-ht"></span>"</p>
+                    <button onclick="clearSearch()" class="text-sm text-hs hover:text-ht font-bold transition-colors"><i class="fa-solid fa-xmark mr-1"></i>Reset</button>
+                </div>
+
+                <div id="articlesContainer">
+                    <div id="skeletons" class="space-y-6">
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-hp"><div class="flex flex-col sm:flex-row"><div class="skeleton-shimmer w-full sm:w-64 h-48 sm:h-auto shrink-0"></div><div class="p-6 flex-1 space-y-3"><div class="skeleton-shimmer h-4 w-32 rounded"></div><div class="skeleton-shimmer h-6 w-3/4 rounded"></div><div class="skeleton-shimmer h-4 w-full rounded"></div><div class="skeleton-shimmer h-4 w-2/3 rounded"></div><div class="skeleton-shimmer h-9 w-40 rounded mt-4"></div></div></div></div>
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-hp"><div class="flex flex-col sm:flex-row"><div class="skeleton-shimmer w-full sm:w-64 h-48 sm:h-auto shrink-0"></div><div class="p-6 flex-1 space-y-3"><div class="skeleton-shimmer h-4 w-32 rounded"></div><div class="skeleton-shimmer h-6 w-3/4 rounded"></div><div class="skeleton-shimmer h-4 w-full rounded"></div><div class="skeleton-shimmer h-4 w-2/3 rounded"></div><div class="skeleton-shimmer h-9 w-40 rounded mt-4"></div></div></div></div>
+                    </div>
+                    <div id="articlesList" class="space-y-6 hidden"></div>
+                    <div id="noResults" class="hidden text-center py-20">
+                        <div class="inline-block mb-5"><div class="w-20 h-20 bg-hp rounded-2xl flex items-center justify-center mx-auto"><i class="fa-solid fa-magnifying-glass text-ht text-2xl"></i></div></div>
+                        <h3 class="font-display font-bold text-xl text-ht mb-2">Artikel Tidak Ditemukan</h3>
+                        <p class="text-gray-500">Coba kata kunci lain atau <button onclick="clearSearch()" class="text-hs font-bold hover:underline">reset pencarian</button>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ARTICLE DETAIL VIEW -->
+    <div id="articleView" class="hidden">
+        <div class="pt-24 pb-16 px-4 sm:px-6">
+            <div class="max-w-4xl mx-auto">
+                <button onclick="showHome()" class="inline-flex items-center gap-2 text-hs hover:text-ht font-semibold text-sm mb-8 transition-colors group">
+                    <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Kembali ke Daftar Artikel
+                </button>
+
+                <article class="bg-white rounded-3xl overflow-hidden shadow-xl border border-hp">
+                    <div id="detailCoverWrap" class="hidden w-full aspect-video bg-gray-100 overflow-hidden">
+                        <img id="detailCoverImg" src="" alt="" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6 sm:p-10 md:p-14">
+                        <div class="flex flex-wrap items-center gap-3 text-sm text-gray-400 mb-4">
+                            <span id="detailDate" class="flex items-center gap-1.5"><i class="fa-regular fa-calendar"></i></span>
+                            <span class="text-hp">•</span>
+                            <span id="detailAuthor" class="flex items-center gap-1.5"><i class="fa-regular fa-user"></i></span>
+                            <span class="text-hp">•</span>
+                            <span id="detailCategory" class="flex items-center gap-1.5"><i class="fa-regular fa-folder"></i></span>
+                        </div>
+                        <h1 id="detailTitle" class="font-display font-bold text-3xl sm:text-4xl text-ht leading-tight mb-8"></h1>
+                        <div class="w-16 h-1 bg-hm rounded-full mb-8"></div>
+                        <div id="detailContent" class="article-content text-gray-700"></div>
+                        
+                        <div class="mt-12 pt-6 border-t border-hp">
+                            <p class="text-sm text-gray-500 mb-3">Bagikan artikel ini:</p>
+                            <div class="flex gap-3">
+                                <button onclick="shareArticle('twitter')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-[#1DA1F2] hover:text-white transition-all"><i class="fa-brands fa-twitter"></i></button>
+                                <button onclick="shareArticle('facebook')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-[#4267B2] hover:text-white transition-all"><i class="fa-brands fa-facebook-f"></i></button>
+                                <button onclick="shareArticle('linkedin')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-[#0077b5] hover:text-white transition-all"><i class="fa-brands fa-linkedin-in"></i></button>
+                                <button onclick="copyArticleLink()" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-hs hover:text-white transition-all"><i class="fa-solid fa-link"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <div id="bacaJugaSection" class="mt-12 reveal">
+                    <h3 class="font-display font-bold text-xl text-ht mb-6">📖 Baca Juga</h3>
+                    <div id="bacaJugaContainer" class="grid md:grid-cols-2 gap-6"></div>
+                </div>
+
+                <div class="flex justify-between items-center mt-8">
+                    <button onclick="showHome()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-hp text-ht font-semibold text-sm rounded-xl hover:bg-hb transition-colors"><i class="fa-solid fa-arrow-left text-xs"></i> Semua Artikel</button>
+                    <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="inline-flex items-center gap-2 px-5 py-2.5 bg-ht text-white font-semibold text-sm rounded-xl hover:bg-hs transition-colors"><i class="fa-solid fa-arrow-up text-xs"></i> Atas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT VIEW -->
+    <div id="aboutView" class="hidden">
+        <div class="pt-24 pb-16 px-4 sm:px-6">
+            <div class="max-w-3xl mx-auto">
+                <button onclick="showHome()" class="inline-flex items-center gap-2 text-hs hover:text-ht font-semibold text-sm mb-8 transition-colors group">
+                    <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Kembali ke Beranda
+                </button>
+                
+                <div id="aboutContent" class="bg-white rounded-3xl overflow-hidden shadow-xl border border-hp">
+                    <div class="p-8 sm:p-12 text-center">
+                        <div class="animate-pulse">
+                            <div class="skeleton-shimmer w-24 h-24 rounded-full mx-auto mb-4"></div>
+                            <div class="skeleton-shimmer h-6 w-48 mx-auto rounded mb-2"></div>
+                            <div class="skeleton-shimmer h-4 w-64 mx-auto rounded mb-4"></div>
+                            <div class="skeleton-shimmer h-32 w-full rounded"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Markdown Cheatsheet Modal -->
+<div id="cheatsheetModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+        <div class="sticky top-0 bg-white border-b border-hp px-6 py-4 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-ht flex items-center gap-2"><i class="fa-brands fa-markdown"></i> Panduan Markdown</h2>
+            <button onclick="closeCheatsheet()" class="text-3xl text-gray-400 hover:text-red-500">&times;</button>
+        </div>
+        <div class="p-6 space-y-4 text-sm">
+            <p class="text-gray-600 mb-4">Kamu bisa menulis artikel di Google Sheets menggunakan Markdown. Berikut panduan singkatnya:</p>
+            
+            <div class="bg-gray-50 rounded-lg p-4">
+                <table class="w-full text-sm">
+                    <tr class="border-b border-hp"><td class="py-2 font-bold">**teks**</td><td class="py-2">→</td><td class="py-2"><strong>teks tebal</strong></td></tr>
+                    <tr class="border-b border-hp"><td class="py-2 font-bold">*teks*</td><td class="py-2">→</td><td class="py-2"><em>teks miring</em></td></tr>
+                    <tr class="border-b border-hp"><td class="py-2 font-bold"># Judul</td><td class="py-2">→</td><td class="py-2"><span class="text-lg font-bold">Heading 1</span></td></tr>
+                    <tr class="border-b border-hp"><td class="py-2 font-bold">## Judul</td><td class="py-2">→</td><td class="py-2"><span class="text-base font-bold">Heading 2</span></td></tr>
+                    <tr class="border-b border-hp"><td class="py-2 font-bold">- item</td><td class="py-2">→</td><td class="py-2">Bullet list</td></tr>
+                    <tr class="border-b border-hp"><td class="py-2 font-bold">1. item</td><td class="py-2">→</td><td class="py-2">Numbered list</td></tr>
+                    <tr class="border-b border-hp"><td class="py-2 font-bold">> kutipan</td><td class="py-2">→</td><td class="py-2">Blockquote</td></tr>
+                    <tr class="border-b border-hp"><td class="py-2 font-bold">[teks](url)</td><td class="py-2">→</td><td class="py-2"><a href="#" class="text-hs">Link</a></td></tr>
+                    <tr class="border-b border-hp"><td class="py-2 font-bold">![alt](url)</td><td class="py-2">→</td><td class="py-2">Gambar</td></tr>
+                    <tr><td class="py-2 font-bold">`code`</td><td class="py-2">→</td><td class="py-2"><code>inline code</code></td></tr>
+                </table>
+            </div>
+            
+            <div class="bg-hb rounded-lg p-4">
+                <p class="font-semibold text-ht mb-2">📝 Contoh penulisan di Google Sheets:</p>
+                <pre class="text-xs bg-gray-800 text-white p-3 rounded overflow-x-auto"># Menulis di Era AI
+
+Kecerdasan buatan sudah menjadi **bagian** dari kehidupan kita.
+
+## Subjudul
+
+- Poin pertama
+- Poin kedua
+
+> Ini adalah kutipan penting
+
+[Klik di sini](https://example.com) untuk baca selengkapnya.</pre>
+            </div>
+            
+            <p class="text-xs text-gray-400 mt-4">💡 Tips: Kamu juga bisa pakai HTML langsung kalau butuh styling yang lebih kompleks!</p>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-ht text-white/70 py-12 px-4 sm:px-6 mt-10">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2.5"><div class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center"><i class="fa-solid fa-feather-pointed text-hml text-xs"></i></div><span class="font-display font-bold text-white">Celoteh Jaka</span></div>
+        <p class="text-sm text-center">© <span id="footYear"></span> Celoteh Jaka. Dibuat dengan <i class="fa-solid fa-heart text-hml text-xs animate-pulse"></i> dan konsep JAMstack + Markdown.</p>
+        <div class="flex items-center gap-3"><a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110"><i class="fa-brands fa-github text-sm"></i></a><a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110"><i class="fa-brands fa-twitter text-sm"></i></a><a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110"><i class="fa-brands fa-instagram text-sm"></i></a></div>
+    </div>
+</footer>
+
+<script>
+// ============================================================
+// KONFIGURASI
+// ============================================================
+const CONFIG = {
+    CSV_URL: 'GANTI_DENGAN_URL_CSV_GOOGLE_SHEETS_ANDA',
+    IMAGE_BASE_URL: 'https://raw.githubusercontent.com/[USERNAME]/[REPO]/main/covers/',
+};
+
+// Konfigurasi Marked.js
+marked.setOptions({
+    highlight: function(code, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            return hljs.highlight(code, { language: lang }).value;
+        }
+        return hljs.highlightAuto(code).value;
+    },
+    breaks: true,
+    gfm: true
+});
+
+// Data
+let articles = [];
+let profileData = {};
+let currentCategory = 'all';
+let currentSearchQuery = '';
+
+// Sample artikel dengan Markdown
+const SAMPLE_ARTICLES = [
+    {
+        id: 0,
+        timestamp: '2025-01-15 09:30:00',
+        judul: 'Menulis di Era AI: Mitos, Fakta, dan Peluang Baru',
+        penulis: 'Jaka',
+        kategori: 'teknologi',
+        cover: '',
+        'isi naskah': `# Menulis di Era AI
+
+Kecerdasan buatan sudah menjadi bagian dari kehidupan sehari-hari kita. Dari asisten virtual di ponsel hingga alat tulis otomatis yang bisa menghasilkan ribuan kata dalam hitungan detik.
+
+## Apakah AI Akan Menggantikan Penulis?
+
+**Jawaban singkatnya: tidak.** Tapi jawaban panjangnya lebih menarik.
+
+Mari kita jujur: AI seperti ChatGPT memang bisa menulis. Tapi menulis itu lebih dari sekadar merangkai kata. Menulis adalah **proses berpikir**. Saat kita menulis, kita sedang mengolah pengalaman, emosi, dan perspektif.
+
+> "Menulis adalah cara terbaik untuk berbicara tanpa harus disela." — Jules Renard
+
+## Peluang Kolaborasi Manusia dan AI
+
+Beberapa cara AI bisa membantu penulis:
+
+- **Brainstorming ide** - minta AI untuk memberikan 10 sudut pandang berbeda
+- **Membuat outline** - biarkan AI menyusun kerangka tulisan
+- **Mengecek tata bahasa** - seperti Grammarly tapi gratis
+- **Mengatasi writer's block** - minta AI menulis 2 paragraf pertama
+
+[Pelajari lebih lanjut tentang AI untuk penulis](https://example.com)`
+    },
+    {
+        id: 1,
+        timestamp: '2025-01-08 14:15:00',
+        judul: 'Analog di Era Digital: Mengapa Saya Masih Menyukai Buku Fisik',
+        penulis: 'Jaka',
+        kategori: 'kepenulisan',
+        cover: '',
+        'isi naskah': `# Analog di Era Digital
+
+Di tengah maraknya e-book, audiobook, dan segala bentuk bacaan digital, ada satu hal yang tetap tidak bisa digantikan: **pengalaman memegang buku fisik**.
+
+## Aroma dan Ritual
+
+Aroma kertas baru — atau bahkan kertas tua dari buku bekas — adalah sesuatu yang tidak bisa direplikasi oleh layar OLED mana pun. Saat kamu membuka buku fisik, ada ritual yang terjadi:
+
+1. Meraba sampul
+2. Mendengar suara halaman yang dibalik
+3. Melihat seberapa jauh kamu sudah membaca
+
+## Ilmu di Balik Buku Fisik
+
+Penelitian menunjukkan bahwa membaca dari kertas membantu kita lebih mudah mengingat informasi. Alasannya sederhana: buku fisik memberikan *"spatial cues"* — kamu ingat bahwa informasi tertentu ada di halaman kiri bawah.
+
+> Buku adalah mimpi yang kita pegang di tangan. — Neil Gaiman
+
+## Kesimpulan
+
+Buku fisik dan buku digital bukan kompetitor — mereka **komplementer**. Ada waktu yang tepat untuk masing-masing.`
+    },
+    {
+        id: 2,
+        timestamp: '2024-12-28 20:45:00',
+        judul: 'Kehidupan Sebagai Penulis Lepas',
+        penulis: 'Jaka',
+        kategori: 'kehidupan',
+        cover: '',
+        'isi naskah': `# Realita di Balik Glamor Freelance
+
+"Kerja dari rumah, jam kerja fleksibel, jadi bos untuk diri sendiri." Itulah gambaran ideal yang sering dipromosikan. Tapi kenyataannya? **Lebih kompleks dari itu.**
+
+## Mitos vs Realita
+
+### Mitos 1: Jam Kerja Fleksibel
+*Realita:* Kamu sering bekerja lebih lama dari pekerja kantoran. Batas antara kerja dan istirahat menjadi kabur.
+
+### Mitos 2: Penghasilan Besar
+*Realita:* Ada bulan di mana kamu bisa mendapat proyek banyak. Tapi ada juga bulan di mana inbox kosong.
+
+## Tips untuk Calon Freelancer
+
+- Siapkan dana darurat minimal **6 bulan**
+- Bangun portofolio sebelum resign
+- Jaringan itu penting — jangan tunggu sampai butuh proyek
+- Belajar **disiplin diri**
+
+> Freelance bukan untuk semua orang. Tapi bagi mereka yang bisa mengelolanya, ini bisa menjadi keputusan karir terbaik.`
+    },
+    {
+        id: 3,
+        timestamp: '2024-12-15 11:00:00',
+        judul: 'Media Sosial dan Kesehatan Mental',
+        penulis: 'Jaka',
+        kategori: 'sosial',
+        cover: '',
+        'isi naskah': `# Kapan Kita Bilang Cukup?
+
+Pagi-pagi bangun, tangan pertama kali yang bergerak bukan untuk meregangkan badan, tapi untuk meraih ponsel. Buka Instagram, scroll. Buka Twitter, scroll.
+
+## Dampak pada Kesehatan Mental
+
+Dampaknya terhadap kesehatan mental sudah banyak diteliti:
+
+- **FOMO** (Fear of Missing Out)
+- Perbandingan sosial yang tidak sehat
+- Kurang tidur
+- Menurunnya konsentrasi
+
+## Strategi Mengelola Waktu Digital
+
+1. **Jangan ada ponsel di kamar tidur** - beli jam dinding biasa untuk alarm
+2. **Tentukan "waktu bebas layar"** - 1 jam sebelum tidur
+3. **Unfollow akun yang membuatmu merasa tidak cukup baik**
+
+> Media sosial adalah alat. Seperti pisau, dia bisa membantu atau melukai, tergantung bagaimana kita menggunakannya.`
+    }
+];
+
+// ============================================================
+// INISIALISASI
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('footYear').textContent = new Date().getFullYear();
+    loadArticles();
+    initScrollReveal();
+    
+    window.addEventListener('scroll', () => {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) navbar.classList.add('shadow-md');
+        else navbar.classList.remove('shadow-md');
+    });
+});
+
+function initScrollReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+}
+
+// ============================================================
+// LOAD ARTIKEL
+// ============================================================
+function loadArticles() {
+    if (CONFIG.CSV_URL === 'GANTI_DENGAN_URL_CSV_GOOGLE_SHEETS_ANDA') {
+        console.log('ℹ️ CSV URL belum diset. Menggunakan data sample dengan Markdown.');
+        articles = SAMPLE_ARTICLES.map(a => ({ ...a, id: a.id }));
+        renderArticles(articles);
+        renderDefaultProfile();
+        return;
+    }
+    
+    Papa.parse(CONFIG.CSV_URL, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+            if (results.data && results.data.length > 0) {
+                processSheetData(results.data);
+            } else {
+                articles = SAMPLE_ARTICLES.map(a => ({ ...a, id: a.id }));
+                renderArticles(articles);
+                renderDefaultProfile();
+            }
+        },
+        error: function(err) {
+            console.error('❌ Gagal load CSV:', err);
+            articles = SAMPLE_ARTICLES.map(a => ({ ...a, id: a.id }));
+            renderArticles(articles);
+            renderDefaultProfile();
+        }
+    });
+}
+
+function processSheetData(rows) {
+    const articleRows = [];
+    let profileRow = null;
+    
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const judul = (row['judul'] || row['Judul'] || '').trim();
+        
+        if (judul.toUpperCase() === 'PROFIL' || judul.toUpperCase() === 'PROFIL_JAKA') {
+            profileRow = row;
+            continue;
+        }
+        
+        if (!judul && !row['isi naskah']) continue;
+        
+        articleRows.push({
+            id: i,
+            timestamp: row['timestamp'] || row['Timestamp'] || new Date().toISOString(),
+            judul: judul || 'Tanpa Judul',
+            penulis: row['penulis'] || row['Penulis'] || 'Jaka',
+            kategori: (row['kategori'] || row['Kategori'] || 'kehidupan').toLowerCase(),
+            'isi naskah': row['isi naskah'] || row['Isi Naskah'] || row['konten'] || '',
+            cover: row['cover'] || row['Cover'] || ''
+        });
+    }
+    
+    articles = articleRows.length ? articleRows : SAMPLE_ARTICLES.map(a => ({ ...a, id: a.id }));
+    renderArticles(articles);
+    renderProfileFromData(profileRow);
+}
+
+function renderDefaultProfile() {
+    const aboutContainer = document.getElementById('aboutContent');
+    aboutContainer.innerHTML = `
+        <div class="p-8 sm:p-12">
+            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
+                <div class="w-28 h-28 profile-avatar rounded-full flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-feather-pointed text-white text-3xl"></i>
+                </div>
+                <div class="text-center sm:text-left">
+                    <h1 class="font-display font-bold text-3xl sm:text-4xl text-ht">Celoteh Jaka</h1>
+                    <p class="text-hs font-medium mt-1">Penulis & Content Creator</p>
+                </div>
+            </div>
+            <div class="w-16 h-1 bg-hm rounded-full mb-6"></div>
+            <div class="text-gray-700 text-lg leading-relaxed space-y-4">
+                <p><strong>Celoteh Jaka</strong> adalah blog pribadi yang menjadi ruang untuk menuangkan pikiran, pengalaman, dan refleksi seputar berbagai hal — mulai dari sosial, teknologi, kepenulisan, hingga kehidupan sehari-hari.</p>
+                <p>Blog ini dibangun dengan konsep <strong>JAMstack</strong> + <strong>Markdown</strong> — HTML statis yang ringan dan cepat, dengan data artikel diambil dari Google Sheets.</p>
+                <p>Selamat membaca. Semoga ada yang bisa kamu ambil dari sini. 🌿</p>
+            </div>
+        </div>
+    `;
+}
+
+function renderProfileFromData(profileRow) {
+    if (!profileRow) {
+        renderDefaultProfile();
+        return;
+    }
+    
+    const aboutContainer = document.getElementById('aboutContent');
+    const nama = profileRow['penulis'] || profileRow['Penulis'] || 'Jaka';
+    const role = profileRow['role'] || 'Penulis & Content Creator';
+    const bio = profileRow['isi naskah'] || profileRow['Isi Naskah'] || '';
+    const avatar = profileRow['cover'] || '';
+    
+    aboutContainer.innerHTML = `
+        <div class="p-8 sm:p-12">
+            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
+                ${avatar ? `<img src="${getCoverUrl(avatar)}" class="w-28 h-28 rounded-full object-cover border-4 border-hp shadow-lg" onerror="this.src='https://placehold.co/200x200/15803d/white?text=J'">` : 
+                          `<div class="w-28 h-28 profile-avatar rounded-full flex items-center justify-center shadow-lg"><i class="fa-solid fa-feather-pointed text-white text-3xl"></i></div>`}
+                <div class="text-center sm:text-left">
+                    <h1 class="font-display font-bold text-3xl sm:text-4xl text-ht">${escapeHtml(nama)}</h1>
+                    <p class="text-hs font-medium mt-1">${escapeHtml(role)}</p>
+                </div>
+            </div>
+            <div class="w-16 h-1 bg-hm rounded-full mb-6"></div>
+            <div class="text-gray-700 text-lg leading-relaxed">${marked.parse(bio || 'Tidak ada bio. Silakan edit di Google Sheets.')}</div>
+        </div>
+    `;
+}
+
+// ============================================================
+// FILTER & RENDER
+// ============================================================
+function filterByCategory(cat) {
+    currentCategory = cat;
+    document.querySelectorAll('.category-pill').forEach(btn => {
+        if (btn.getAttribute('data-cat') === cat) btn.classList.add('active', 'bg-hs', 'text-white');
+        else btn.classList.remove('active', 'bg-hs', 'text-white');
+    });
+    applyFilters();
+}
+
+function handleSearch(q) {
+    currentSearchQuery = q;
+    document.getElementById('searchDesktop').value = q;
+    document.getElementById('searchMobile').value = q;
+    applyFilters();
+}
+
+function applyFilters() {
+    let filtered = [...articles];
+    if (currentCategory !== 'all') filtered = filtered.filter(a => a.kategori === currentCategory);
+    if (currentSearchQuery) {
+        const query = currentSearchQuery.toLowerCase();
+        filtered = filtered.filter(a => a.judul.toLowerCase().includes(query) || a.penulis.toLowerCase().includes(query) || (a['isi naskah'] || '').toLowerCase().includes(query));
+    }
+    
+    const info = document.getElementById('searchInfo');
+    if (currentSearchQuery) {
+        info.classList.remove('hidden');
+        document.getElementById('resultCount').textContent = filtered.length;
+        document.getElementById('searchTerm').textContent = currentSearchQuery;
+    } else info.classList.add('hidden');
+    
+    renderArticles(filtered);
+}
+
+function clearSearch() { currentSearchQuery = ''; handleSearch(''); }
+
+function renderArticles(data) {
+    const list = document.getElementById('articlesList');
+    const skel = document.getElementById('skeletons');
+    const noRes = document.getElementById('noResults');
+    
+    skel.classList.add('hidden');
+    if (!data.length) { list.classList.add('hidden'); noRes.classList.remove('hidden'); return; }
+    
+    noRes.classList.add('hidden');
+    list.classList.remove('hidden');
+    
+    list.innerHTML = data.map((a, idx) => {
+        const date = formatDate(a.timestamp);
+        const preview = getPreview(a['isi naskah'], 140);
+        const categoryIcon = { teknologi: '💻', kepenulisan: '✍️', kehidupan: '🌿', sosial: '🤝' }[a.kategori] || '📝';
+        const categoryName = { teknologi: 'Teknologi & AI', kepenulisan: 'Kepenulisan', kehidupan: 'Kehidupan', sosial: 'Sosial' }[a.kategori] || 'Artikel';
+        
+        return `<div class="card-modern rounded-2xl overflow-hidden fade-in reveal" style="animation-delay:${idx*50}ms">
+            <div class="flex flex-col sm:flex-row">
+                <div class="w-full sm:w-64 lg:w-72 shrink-0 overflow-hidden bg-gradient-to-br from-hs to-ht">
+                    ${a.cover ? `<img src="${getCoverUrl(a.cover)}" alt="${escapeHtml(a.judul)}" class="w-full h-48 sm:h-full object-cover hover:scale-110 transition-transform duration-700">` : `<div class="w-full h-full min-h-[192px] flex items-center justify-center"><i class="fa-solid fa-feather-pointed text-white/40 text-5xl"></i></div>`}
+                </div>
+                <div class="p-5 sm:p-6 flex-1">
+                    <div class="flex items-center gap-3 text-xs text-gray-400 mb-2">
+                        <span class="flex items-center gap-1"><i class="fa-regular fa-calendar"></i>${date}</span>
+                        <span>•</span>
+                        <span class="flex items-center gap-1"><i class="fa-regular fa-user"></i>${escapeHtml(a.penulis)}</span>
+                        <span>•</span>
+                        <span class="flex items-center gap-1 px-2 py-0.5 bg-hp rounded-full text-ht text-[10px]">${categoryIcon} ${categoryName}</span>
+                    </div>
+                    <h3 class="font-display font-bold text-xl text-ht leading-snug mb-2.5 hover:text-hs transition-colors cursor-pointer" onclick="showArticle(${a.id})">${escapeHtml(a.judul)}</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed line-clamp-3">${escapeHtml(preview)}…</p>
+                    <div class="mt-4"><button onclick="showArticle(${a.id})" class="inline-flex items-center gap-2 px-5 py-2.5 bg-ht text-white text-sm font-semibold rounded-xl hover:bg-hs transition-all group">Baca Selengkapnya <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i></button></div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ============================================================
+// SHOW ARTICLE dengan Markdown
+// ============================================================
+function showArticle(id) {
+    const article = articles.find(a => a.id === id);
+    if (!article) return;
+    
+    window.location.hash = `artikel/${id}`;
+    document.getElementById('homeView').classList.add('hidden');
+    document.getElementById('aboutView').classList.add('hidden');
+    document.getElementById('articleView').classList.remove('hidden');
+    
+    document.getElementById('detailTitle').textContent = article.judul;
+    document.getElementById('detailDate').innerHTML = `<i class="fa-regular fa-calendar"></i> ${formatDate(article.timestamp)}`;
+    document.getElementById('detailAuthor').innerHTML = `<i class="fa-regular fa-user"></i> ${escapeHtml(article.penulis)}`;
+    
+    const categoryName = { teknologi: 'Teknologi & AI', kepenulisan: 'Kepenulisan', kehidupan: 'Kehidupan', sosial: 'Sosial' }[article.kategori] || 'Artikel';
+    document.getElementById('detailCategory').innerHTML = `<i class="fa-regular fa-folder"></i> ${categoryName}`;
+    
+    // Convert Markdown ke HTML
+    const markdownContent = article['isi naskah'] || '';
+    const htmlContent = marked.parse(markdownContent);
+    document.getElementById('detailContent').innerHTML = htmlContent;
+    
+    // Highlight code blocks
+    document.querySelectorAll('#detailContent pre code').forEach((block) => {
+        hljs.highlightElement(block);
+    });
+    
+    const coverWrap = document.getElementById('detailCoverWrap');
+    const coverImg = document.getElementById('detailCoverImg');
+    if (article.cover && article.cover.trim()) {
+        coverImg.src = getCoverUrl(article.cover);
+        coverImg.alt = article.judul;
+        coverWrap.classList.remove('hidden');
+    } else coverWrap.classList.add('hidden');
+    
+    const related = articles.filter(a => a.id !== id && a.kategori === article.kategori).slice(0, 2);
+    const bacaJugaContainer = document.getElementById('bacaJugaContainer');
+    if (related.length) {
+        bacaJugaContainer.innerHTML = related.map(a => `<div class="bg-white rounded-xl p-4 border border-hp hover:shadow-lg transition-all cursor-pointer" onclick="showArticle(${a.id})"><h4 class="font-display font-bold text-ht mb-1">${escapeHtml(a.judul)}</h4><p class="text-xs text-gray-400">${formatDate(a.timestamp)}</p></div>`).join('');
+        document.getElementById('bacaJugaSection').classList.remove('hidden');
+    } else document.getElementById('bacaJugaSection').classList.add('hidden');
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// NAVIGATION & CHEATSHEET
+// ============================================================
+function showHome() { 
+    window.location.hash = ''; 
+    document.getElementById('homeView').classList.remove('hidden'); 
+    document.getElementById('articleView').classList.add('hidden'); 
+    document.getElementById('aboutView').classList.add('hidden'); 
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+}
+
+function showAbout() { 
+    window.location.hash = 'tentang'; 
+    document.getElementById('homeView').classList.add('hidden'); 
+    document.getElementById('articleView').classList.add('hidden'); 
+    document.getElementById('aboutView').classList.remove('hidden'); 
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+}
+
+function showCheatsheet() {
+    document.getElementById('cheatsheetModal').classList.remove('hidden');
+    document.getElementById('cheatsheetModal').style.display = 'flex';
+}
+
+function closeCheatsheet() {
+    document.getElementById('cheatsheetModal').classList.add('hidden');
+    document.getElementById('cheatsheetModal').style.display = 'none';
+}
+
+function shareArticle(platform) { 
+    const url = encodeURIComponent(window.location.href); 
+    const title = encodeURIComponent(document.getElementById('detailTitle').textContent); 
+    let shareUrl = ''; 
+    if (platform === 'twitter') shareUrl = `https://twitter.com/intent/tweet?text=${title}&url=${url}`; 
+    else if (platform === 'facebook') shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`; 
+    else if (platform === 'linkedin') shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`; 
+    if (shareUrl) window.open(shareUrl, '_blank', 'width=600,height=400'); 
+}
+
+function copyArticleLink() { 
+    navigator.clipboard.writeText(window.location.href); 
+    alert('Link artikel disalin! 📋'); 
+}
+
+function toggleMobileSearch() { 
+    document.getElementById('mobileSearch').classList.toggle('hidden'); 
+}
+
+// ============================================================
+// UTILITY
+// ============================================================
+function getCoverUrl(file) { 
+    if (!file || file.trim() === '') return ''; 
+    if (file.startsWith('http')) return file;
+    return CONFIG.IMAGE_BASE_URL + file.trim(); 
+}
+
+function formatDate(ts) { 
+    if (!ts) return '—'; 
+    const d = new Date(ts); 
+    if (isNaN(d)) return ts; 
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']; 
+    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`; 
+}
+
+function getPreview(markdown, len) { 
+    if (!markdown) return 'Tidak ada preview.'; 
+    const clean = markdown.replace(/\n+/g, ' ').replace(/[#*`>]/g, '').trim(); 
+    return clean.length <= len ? clean : clean.substring(0, len); 
+}
+
+function escapeHtml(str) { 
+    if (!str) return ''; 
+    const div = document.createElement('div'); 
+    div.textContent = str; 
+    return div.innerHTML; 
+}
+
+window.addEventListener('hashchange', () => { 
+    const hash = window.location.hash; 
+    if (hash.startsWith('#artikel/')) { 
+        const id = parseInt(hash.replace('#artikel/', '')); 
+        if (!isNaN(id)) showArticle(id); 
+    } else if (hash === '#tentang') showAbout(); 
+    else showHome(); 
+});
+</script>
+</body>
+</html>
